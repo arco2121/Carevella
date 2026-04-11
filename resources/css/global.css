@@ -1,0 +1,20 @@
+/* Palette: https://colorhunt.co/palette/c0e1d2e5eee4f6f4e8dc9b9b */
+
+* {
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+:root {
+    --background: #C0E1D2;
+}
+
+:focus {
+    outline: none;
+}
+
+body {
+    background: var(--background);
+}

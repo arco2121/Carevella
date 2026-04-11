@@ -1,7 +1,6 @@
 <?php
-
+require_once "functions.php";
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', fn() => renderPage("index"));
+Route::get('/login', fn() => renderPage("login"));
