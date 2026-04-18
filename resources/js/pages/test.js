@@ -1,18 +1,15 @@
 import { echo } from "../echo.js";
 
-document.getElementById('messageForm').addEventListener('submit', async (e) => {
+document.getElementById('messagemqtt').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const message = document.getElementById('message').value;
-    const status = document.getElementById('status');
-
     try {
-        const response = await fetch('/send-message', {
+        const response = await fetch('/sendMqtt', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document
-                    .querySelector('meta[name="csrf-token"]').content
+                    .querySelector('input[name="_token"]').content
             },
             body: JSON.stringify({ message })
         });
@@ -20,14 +17,14 @@ document.getElementById('messageForm').addEventListener('submit', async (e) => {
         const data = await response.json();
 
         if(data.ok) {
-            toastr.success("Messaggio inviato correttamente");
+            alert("Messaggio inviato correttamente");
         } else {
-            toastr.error("Errore");
+            alert("Errore");
         }
 
     } catch (error) {
         console.error(error);
-        status.innerText = '❌ Errore invio';
+        alert(error.message)
     }
 });
 
@@ -36,18 +33,8 @@ echo.channel('esp32')
     .listen('MqttMessageReceived', (data) => {
 
         console.log("Message");
-        const message = JSON.parse(data.message);
-        console.log(message);
+        let { topic, message } = data;
+        message = JSON.parse(message);
 
-        console.log("Topic");
-        console.log(data.topic);
-
-        let s = data.topic;
-        s += "</br>";
-        if(message.type === 'button_pressed') {
-            s += "E' stato premuto il pulsante del device: ";
-            s += message.device;
-        }
-
-        toastr.success(s);
+        const str = "Topic '" + topic + "' => " + message
     });

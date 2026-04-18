@@ -4,7 +4,7 @@ use Illuminate\Contracts\View\View;
 function renderPage($page, $parametri = [
     'title' => 'Caravel'
 ]) : View {
-    return view("header", [
+    return view("layouts.app", [
         "page" => $page,
         'title' => $parametri["title"],
         'params' => $parametri

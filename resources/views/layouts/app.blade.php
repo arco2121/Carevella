@@ -1,5 +1,5 @@
 <!doctype html>
-<html  lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -12,10 +12,10 @@
     <title>{{ $title }}</title>
 </head>
 <body>
-    @include('components/navbar')
+@include('components.navbar')
 
-    @include($page, $params)
+@include($page, $params)
 
-    @include('components/footer')
+@include('components.footer')
 </body>
 </html>
