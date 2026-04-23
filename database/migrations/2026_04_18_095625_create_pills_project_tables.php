@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('username'); // Richiesto dai tuoi compagni
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ['patient', 'doctor', 'family'])->default('patient');
+            $table->enum('role', ['paziente', 'medico', 'famiglia'])->default('patient');
             $table->foreignId('doctor_id')->nullable()->constrained('users')->onDelete('set null');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
