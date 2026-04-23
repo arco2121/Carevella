@@ -34,28 +34,38 @@ class PrescriptionController extends Controller
 
     public function store(Request $request)
     {
+        // 1. Recuperiamo l'ID del paziente dal modulo
         $patientId = $request->input('patient_id');
-        $schedule = $request->input('schedule'); // Array con [giorno][step] = medicine_id
+        $schedule = $request->input('schedule'); // L'array [giorno][step]
 
-        foreach ($schedule as $day => $steps) {
-            foreach ($steps as $step => $medicineId) {
-                if ($medicineId) {
-                    // Calcolo orario basato sullo step (1=08:00, 2=10:00, ecc.)
-                    $baseTime = 8 + (($step - 1) * 2);
-                    $scheduledTime = sprintf('%02d:00:00', $baseTime);
+        // 2. CANCELLAZIONE RECORD VECCHI
+        // Prima di salvare il nuovo piano, eliminiamo tutto quello che esiste per questo utente
+        \App\Models\Prescription::where('patient_id', $patientId)->delete();
 
-                    Prescription::create([
-                        'patient_id' => $patientId,
-                        'medicine_id' => $medicineId,
-                        'day' => $day,
-                        'step' => $step,
-                        'scheduled_time' => $scheduledTime,
-                        'amount' => 1
-                    ]);
+        // 3. CREAZIONE NUOVI RECORD
+        // Se l'utente ha selezionato almeno una medicina, procediamo
+        if ($schedule) {
+            foreach ($schedule as $day => $steps) {
+                foreach ($steps as $step => $medicineId) {
+                    // Salviamo solo se è stata selezionata una medicina (non vuoto)
+                    if ($medicineId) {
+                        // Calcolo orario (Step 1 = 08:00, Step 2 = 10:00, ecc.)
+                        $baseTime = 8 + (($step - 1) * 2);
+                        $scheduledTime = sprintf('%02d:00:00', $baseTime);
+
+                        \App\Models\Prescription::create([
+                            'patient_id' => $patientId,
+                            'medicine_id' => $medicineId,
+                            'day' => $day,
+                            'step' => $step,
+                            'scheduled_time' => $scheduledTime,
+                            'amount' => 1
+                        ]);
+                    }
                 }
             }
         }
 
-        return redirect()->back()->with('success', 'Piano prescrizioni salvato correttamente!');
+        return redirect()->back()->with('success', 'Piano prescrizioni aggiornato con successo!');
     }
 }
