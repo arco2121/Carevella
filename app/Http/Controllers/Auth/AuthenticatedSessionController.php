@@ -1,6 +1,6 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
+require_once base_path('routes/functions.php');
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -16,7 +16,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return renderPage('auth.login');
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+require_once base_path('routes/functions.php');
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +17,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function show(): View
     {
-        return view('auth.confirm-password');
+        return renderPage('auth.confirm-password');
     }
 
     /**

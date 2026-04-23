@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+require_once base_path('routes/functions.php');
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +17,7 @@ class PasswordResetLinkController extends Controller
      */
     public function create(): View
     {
-        return view('auth.forgot-password');
+        return renderPage('auth.forgot-password');
     }
 
     /**

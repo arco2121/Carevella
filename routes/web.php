@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/dashboard/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions.index');
 Route::post('/dashboard/prescriptions', [PrescriptionController::class, 'store'])->name('prescriptions.store');
 Route::get('/', fn() => renderPage("index"));
-Route::get('/login', fn() => renderPage("login"));
 Route::get('/test', fn() => renderPage("test"));
 
 

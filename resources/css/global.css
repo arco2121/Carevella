@@ -43,6 +43,33 @@ body {
     height: auto;
 }
 
+.box {
+    display: flex;
+    background: var(--background-tiles);
+    border-radius: 15px;
+    width: auto;
+    border: solid 2px;
+    box-shadow: 0 0 5px var(--background-tiles);
+    transition: all 0.3s ease-out;
+}
+
+.box:active {
+    scale: 0.98;
+}
+
+button {
+    font-size: 1rem;
+    font-weight: normal;
+    background: var(--background-button);
+    border-radius: 10px;
+    aspect-ratio: 3/2;
+    width: 70px;
+}
+
+button:active {
+    scale: 0.9;
+}
+
 .padding_orizontal_20 {
     padding-left: 6vw;
     padding-right: 6vw;
@@ -89,10 +116,6 @@ body {
     justify-content: space-around;
 }
 
-.full_width {
-    width: 100%;
-}
-
 .text_center {
     text-align: center;
 }
@@ -121,35 +144,12 @@ h5 {
     min-height: 90vh;
 }
 
-.box {
-    display: flex;
-    background: var(--background-tiles);
-    border-radius: 15px;
-    width: auto;
-    border: solid 2px;
-    box-shadow: 0 0 5px var(--background-tiles);
-    transition: all 0.3s ease-out;
-}
-
-.box:active {
-    scale: 0.98;
-}
-
-button {
-    font-size: 1rem;
-    font-weight: normal;
-    background: var(--background-button);
-    border-radius: 10px;
-    aspect-ratio: 3/2;
-    width: 70px;
-}
-
-button:active {
-    scale: 0.9;
-}
-
 .end {
     align-items: flex-end;
+}
+
+.full_width {
+    width: 100%;
 }
 
 /*NAVBAR*/
