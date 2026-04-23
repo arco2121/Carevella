@@ -17,5 +17,5 @@
     ```
 
 ## Run
-
+- Run 'npm run build' once
 - Run 'npm run app' or 'npm start'

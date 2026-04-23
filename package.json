@@ -3,7 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "npm install && composer install && php artisan migrate:fresh",
+        "build": "npm install && composer install && php artisan migrate:fresh && php artisan key:generate",
         "dev": "vite",
         "app": "concurrently \"npm run dev\" \"php artisan mqtt:subscribe\" \"php artisan reverb:start\" \"php artisan serve\"",
         "start": "vite build && concurrently \"php artisan mqtt:subscribe\" \"php artisan reverb:start\" \"php artisan serve\""
