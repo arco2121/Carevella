@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+require_once base_path('routes/functions.php');
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -20,7 +21,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return renderPage('auth.register');
     }
 
     /**

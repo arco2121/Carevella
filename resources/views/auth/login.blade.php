@@ -1,47 +1,49 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<div class="column min_height around">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+    <div class="column gap_20 vertical_center full_width text_center">
+        <h1>Accedi al Sistema</h1>
+        <h5>Pills Automatic Dispenser - Project 2026</h5>
+    </div>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <div class="column vertical_center full_width">
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        @if ($errors->any())
+            <div class="padding_vertical_15" style="color: red;">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+        <form method="POST" action="{{ route('login') }}" class="column gap_20 padding_vertical_15 end box_focus_mode padding_orizontal_10 box">
+            @csrf
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <div class="column full_width">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="{{ old('username') }}" required autofocus placeholder="Inserisci username">
+            </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+            <div class="column full_width">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+            </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+            <div class="row gap_10 vertical_center">
+                <input id="remember_me" type="checkbox" name="remember">
+                <label for="remember_me">Ricordami</label>
+            </div>
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+            <div class="column gap_10 full_width">
+                <button type="submit" class="full_width">Entra</button>
+
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" style="font-size: 0.8rem; text-align: center;">
+                        Password dimenticata?
+                    </a>
+                @endif
+            </div>
+        </form>
+    </div>
+</div>
