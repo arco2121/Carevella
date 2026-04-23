@@ -1,7 +1,9 @@
 @php
+    // Array per la generazione dinamica della tabella delle prescrizioni
     $giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
     $fasce  = ['8:00 / 10:00',  '10:00 / 12:00', '12:00 / 14:00','14:00 / 16:00', '16:00 / 18:00', '18:00 / 20:00','20:00 / 22:00', '22:00 / 8:00',];
 @endphp
+
 @csrf
 
 <h1>Gestione Prescrizioni</h1>
@@ -10,7 +12,7 @@
 <select id="paziente-select">
     <option value="">— Seleziona paziente —</option>
     @foreach ($pazienti as $paziente)
-        <option value="{{ $paziente->id }}">{{ $paziente->name }}</option>
+        <option value="{{ $paziente->id }}">{{ $paziente->username }}</option>
     @endforeach
 </select>
 

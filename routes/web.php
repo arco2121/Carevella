@@ -31,6 +31,25 @@ Route::get('/dashboard-paziente', function () {
 });
 
 
+Route::get('/dashboard-medico', function () {
+    // Recupera l'istanza del medico attualmente autenticato
+    $medico = auth()->user();
+
+    // Estrae solo i pazienti assegnati al medico loggato, verificando il ruolo esatto sul DB
+    $listaPazienti = $medico->pazienti()->where('role', 'patient')->get();
+
+    // Estrae l'elenco completo dei farmaci disponibili
+    $listaMedicine = Medicine::all();
+
+    // Utilizza la funzione custom per caricare il layout, passando i parametri richiesti dal Blade
+    return renderPage("dashboards.dashboard_medico", [
+        'title' => 'Dashboard Medico',
+        'pazienti' => $listaPazienti,
+        'medicine' => $listaMedicine
+    ]);
+})->middleware('auth');
+
+
 Route::post('/sendMqtt', [MqttController::class, 'send']);
 
 require __DIR__.'/auth.php';
