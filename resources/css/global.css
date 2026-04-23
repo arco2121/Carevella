@@ -63,7 +63,9 @@ button {
     background: var(--background-button);
     border-radius: 10px;
     aspect-ratio: 3/2;
-    width: 70px;
+    width: auto;
+    padding: 0 10px;
+    min-width: 70px;
 }
 
 button:active {
@@ -87,6 +89,19 @@ button:active {
 
 .gap_20 {
     gap: 20px;
+}
+
+.margin_vertical_20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.gap_10 {
+    gap: 10px;
+}
+
+.gap_15 {
+    gap: 15px;
 }
 
 .padding_vertical_20 {
@@ -140,6 +155,11 @@ h5 {
     font-weight: lighter;
 }
 
+h6 {
+    font-size: 0.8rem;
+    font-weight: lighter;
+}
+
 .min_height {
     min-height: 90vh;
 }
@@ -163,4 +183,8 @@ h5 {
         box-shadow: 0 15px 15px var(--background-tiles);
         background: var(--background-tiles);
     }
+}
+
+.login_form {
+    width: 60vw;
 }

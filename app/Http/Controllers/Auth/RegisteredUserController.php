@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+
 require_once base_path('routes/functions.php');
 
 use App\Http\Controllers\Controller;
@@ -12,41 +13,52 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View; // Usiamo l'interfaccia corretta per renderPage
 
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * Mostra la vista di registrazione usando la tua funzione custom.
      */
     public function create(): View
     {
-        return renderPage('auth.register');
+        return renderPage('auth.register', ['title' => 'Registrazione']);
     }
 
     /**
-     * Handle an incoming registration request.
+     * Gestisce la richiesta di registrazione.
      *
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
+        // 1. Validazione allineata al tuo form e al tuo database
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'username' => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'role'     => ['required', 'string', 'in:patient,doctor,family'], // Validiamo il ruolo
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // 2. Creazione dell'utente con i campi corretti
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'username' => $request->username, // Usiamo username, NON name
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'role'     => $request->role,     // Salviamo il ruolo scelto nel form
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // 3. Reindirizzamento dinamico basato sul ruolo scelto
+        if ($user->role === 'doctor') {
+            return redirect('/medico');
+        } elseif ($user->role === 'family') {
+            return redirect('/familiare');
+        }
+
+        return redirect('/paziente');
     }
 }

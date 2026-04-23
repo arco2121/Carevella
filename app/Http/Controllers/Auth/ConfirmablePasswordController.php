@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+
 require_once base_path('routes/functions.php');
 
 use App\Http\Controllers\Controller;
@@ -8,21 +9,16 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 
 class ConfirmablePasswordController extends Controller
 {
-    /**
-     * Show the confirm password view.
-     */
     public function show(): View
     {
-        return renderPage('auth.confirm-password');
+        // Usa la tua funzione e passa un titolo
+        return renderPage('auth.confirm-password', ['title' => 'Conferma Password']);
     }
 
-    /**
-     * Confirm the user's password.
-     */
     public function store(Request $request): RedirectResponse
     {
         if (! Auth::guard('web')->validate([
@@ -36,6 +32,10 @@ class ConfirmablePasswordController extends Controller
 
         $request->session()->put('auth.password_confirmed_at', time());
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Redirect dinamico basato sul ruolo invece della rotta 'dashboard' fissa
+        $user = auth()->user();
+        $target = $user->role === 'doctor' ? '/medico' : '/paziente';
+
+        return redirect()->intended($target);
     }
 }
