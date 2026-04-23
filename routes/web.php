@@ -26,7 +26,9 @@ Route::get('/dashboard/prescriptions', [PrescriptionController::class, 'index'])
 Route::post('/dashboard/prescriptions', [PrescriptionController::class, 'store'])->name('prescriptions.store');
 Route::get('/', fn() => renderPage("index"));
 Route::get('/test', fn() => renderPage("test"));
-
+Route::get('/dashboard-paziente', function () {
+    return view('dashboards.dashboard_paziente');
+});
 
 
 Route::post('/sendMqtt', [MqttController::class, 'send']);
