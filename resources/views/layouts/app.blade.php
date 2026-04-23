@@ -6,16 +6,18 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="params" content="{{ json_encode($params) }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/'. $page .'.css'])
+    @php( $pageInt = explode(".", $page))
+    @php($css = $pageInt[sizeof($pageInt) - 1])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/'.$css.'.css'])
 
     <link rel="icon" href="{{ asset('assets/icon.png')}}">
     <title>{{ $title }}</title>
 </head>
 <body>
-@include('components.navbar')
+    @include('components.navbar')
 
-@include($page, $params)
+    @include($page, $params)
 
-@include('components.footer')
+    @include('components.footer')
 </body>
 </html>

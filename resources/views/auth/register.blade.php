@@ -1,52 +1,66 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<div class="column min_height around">
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+    <div class="column gap_20 vertical_center full_width text_center">
+        <h1>Crea Account</h1>
+        <h6>Hai un accesso? <a href="/login">Loggati</a></h6>
+    </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <div class="column vertical_center full_width margin_vertical_20">
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        {{-- Messaggi di Errore --}}
+        @if ($errors->any())
+            <div class="column gap_10 padding_vertical_15 text_center" style="color: #ff4d4d; font-weight: bold;">
+                @foreach ($errors->all() as $error)
+                    <span>{{ $error }}</span>
+                @endforeach
+            </div>
+        @endif
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+        <form method="POST" action="{{ route('register') }}" class="login_form column gap_20 padding_vertical_15 end box_focus_mode padding_orizontal_10 box">
+            @csrf
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            {{-- Username (Cambiato da Name per il tuo DB) --}}
+            <div class="column full_width gap_5">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="{{ old('username') }}" required autofocus placeholder="Scegli un username">
+            </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            {{-- Email --}}
+            <div class="column full_width gap_5">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="esempio@mail.it">
+            </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+            {{-- Ruolo (Importante per la tua logica Medico/Paziente) --}}
+            <div class="column full_width gap_5">
+                <label for="role">Tipo di Utente</label>
+                <select id="role" name="role" required class="full_width">
+                    <option value="patient">Paziente</option>
+                    <option value="doctor">Medico</option>
+                    <option value="family">Familiare</option>
+                </select>
+            </div>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+            {{-- Password --}}
+            <div class="column full_width gap_10">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Minimo 8 caratteri">
+            </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+            {{-- Conferma Password --}}
+            <div class="column full_width gap_10">
+                <label for="password_confirmation">Conferma Password</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" required placeholder="Ripeti la password">
+            </div>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+            {{-- Azioni --}}
+            <div class="column vertical_center gap_20 full_width">
+                <button type="submit" class="full-width">Registrati</button>
+
+                <a href="{{ route('login') }}" class="text_center" style="font-size: 0.8rem; text-decoration: none; color: inherit; opacity: 0.7;">
+                    Hai già un account? Accedi
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

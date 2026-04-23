@@ -11,7 +11,7 @@
             <a href="/profilo">Profilo</a>
         @endauth
         @guest
-            <a href="/login_register">Login/Register</a>
+            <a href="/login">Login/Register</a>
         @endguest
     </div>
 
