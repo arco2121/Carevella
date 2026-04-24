@@ -2,7 +2,7 @@
 
     <div class="column gap_20 vertical_center full_width text_center">
         <h1>Crea Account</h1>
-        <h6>Hai un accesso? <a href="/login">Loggati</a></h6>
+        <h6>Crea un account in base al ruolo</h6>
     </div>
 
     <div class="column vertical_center full_width margin_vertical_20">

@@ -9,7 +9,7 @@
             <select name="patient_id" class="font_normal" required style="background: transparent; border: none; font-size: 1.1rem;">
                 <option value="">Scegli un utente...</option>
                 @foreach($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    <option style="color: black" value="{{ $user->id }}">{{ $user->name }}</option>
                 @endforeach
             </select>
         </div>

@@ -1,7 +1,7 @@
 /* Palette: https://colorhunt.co/palette/c0e1d2e5eee4f6f4e8dc9b9b */
 
 * {
-    transition: all 0.15s ease;
+    transition: all 0.25s ease;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     -webkit-user-drag: none;
@@ -188,3 +188,335 @@ h6 {
 .login_form {
     width: 60vw;
 }
+
+/* ===== DASHBOARD GLOBAL ===== */
+
+.dashboard-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+}
+
+/* ===== HERO (index) ===== */
+
+.hero-title {
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: bold;
+    line-height: 1.1;
+    letter-spacing: -1px;
+}
+
+.hero-sub {
+    font-size: 1.15rem;
+    font-weight: lighter;
+    max-width: 520px;
+    margin: 0 auto;
+    opacity: 0.75;
+    line-height: 1.7;
+}
+
+.pill-badge {
+    display: inline-block;
+    background: var(--background-button);
+    border-radius: 999px;
+    padding: 5px 18px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: 2px solid transparent;
+    font-family: "Fredoka", serif;
+}
+
+.cta-btn:active { transform: scale(0.96); }
+
+.cta-btn.primary {
+    background: var(--background-button);
+    color: #000;
+    box-shadow: 0 4px 15px rgba(220,155,155,0.4);
+}
+
+.cta-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220,155,155,0.5);
+}
+
+.cta-btn.secondary {
+    background: var(--background-tiles);
+    border-color: currentColor;
+}
+
+.cta-btn.secondary:hover { transform: translateY(-2px); }
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: var(--background-tiles);
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.feature-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+.feature-card h3 { font-size: 1.1rem; font-weight: bold; margin: 0 0 8px; }
+.feature-card p  { font-size: 0.85rem; opacity: 0.65; margin: 0; line-height: 1.6; }
+
+/* ===== DASHBOARD HEADER ===== */
+
+.dash-header { flex-wrap: wrap; gap: 15px; }
+
+.role-badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    width: fit-content;
+}
+
+.role-badge.paziente  { background: #c0e1d2; }
+.role-badge.medico    { background: #b8d4f0; }
+.role-badge.famiglia  { background: #f0e2b8; }
+
+/* ===== STATUS DOT ===== */
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #aaa;
+    display: inline-block;
+    flex-shrink: 0;
+    transition: background 0.3s ease;
+}
+
+.dot.green   { background: #4caf50; box-shadow: 0 0 6px rgba(76,175,80,0.5); }
+.dot.red     { background: #f44336; }
+.dot.orange  { background: #ff9800; }
+.dot.pulse   {
+    animation: pulse-dot 1.5s ease-in-out infinite;
+    background: #4caf50;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(76,175,80,0.4); }
+    50%       { box-shadow: 0 0 0 6px rgba(76,175,80,0); }
+}
+
+/* ===== SENSOR GRID ===== */
+
+.sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.sensor-card {
+    padding: 22px 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.sensor-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--background-button);
+    border-radius: 3px 3px 0 0;
+}
+
+#card-hum::before { background: #87c4e8; }
+#card-pir::before { background: #c8e87a; }
+
+.sensor-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.sensor-top { width: 100%; margin-bottom: 5px; }
+
+.sensor-label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sensor-time {
+    font-size: 0.75rem;
+    opacity: 0.45;
+    font-family: monospace;
+}
+
+.sensor-value {
+    font-size: 2.8rem;
+    font-weight: bold;
+    line-height: 1;
+    transition: all 0.4s ease;
+}
+
+.sensor-unit {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    margin-bottom: 10px;
+}
+
+.sensor-bar {
+    width: 100%;
+    height: 5px;
+    background: rgba(0,0,0,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.bar-fill {
+    height: 100%;
+    background: var(--background-button);
+    border-radius: 999px;
+    transition: width 0.6s ease;
+}
+
+.bar-fill.blue { background: #87c4e8; }
+
+/* ===== SECTION BLOCKS ===== */
+
+.section-block {
+    border-radius: 16px;
+    border: 2px solid rgba(0,0,0,0.06);
+}
+
+/* ===== PRESCRIPTION GRID ===== */
+
+.prescription-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px;
+}
+
+.day-block { min-width: 0; }
+
+.day-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(0,0,0,0.08);
+    margin-bottom: 5px;
+}
+
+.pill-item {
+    background: var(--background-color1);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--background-button);
+    flex-shrink: 0;
+}
+
+.pill-time {
+    margin-left: auto;
+    font-size: 0.75rem;
+    opacity: 0.55;
+    font-family: monospace;
+}
+
+/* ===== LIVE LOG ===== */
+
+.live-log {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.log-entry {
+    background: var(--background-color2);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    font-family: monospace;
+    animation: fade-in 0.3s ease-out;
+    border-left: 3px solid var(--background-button);
+}
+
+.log-entry .log-time { opacity: 0.5; font-size: 0.75rem; margin-right: 8px; }
+
+/* ===== AVATAR ===== */
+
+.avatar-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--background-button);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* ===== PAZIENTE SELECT ===== */
+
+.paziente-select {
+    cursor: pointer;
+    max-width: 400px;
+}
+
+.paziente-select option { background: var(--background-tiles); }
+
+/* ===== SENSOR VALUE FLASH ===== */
+
+@keyframes value-flash {
+    0%   { color: inherit; }
+    30%  { color: var(--background-button); }
+    100% { color: inherit; }
+}
+
+.value-updated { animation: value-flash 0.8s ease-out; }
+
+/* ===== EMPTY STATE ===== */
+
+.empty-state { min-height: 200px; justify-content: center; }

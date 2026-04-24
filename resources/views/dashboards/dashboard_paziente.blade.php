@@ -1,54 +1,100 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Paziente - Monitoraggio IoT</title>
-    @vite(['resources/css/app.css', 'resources/js/text.js'])
+<div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_20">
 
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: #fff; padding: 15px 25px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .status-indicator { font-weight: bold; padding: 5px 12px; border-radius: 20px; background: #e2e8f0; font-size: 0.9em; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .card h3 { margin-top: 0; color: #1a202c; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
-        .data-value { font-size: 2.5rem; font-weight: 800; color: #3182ce; margin: 20px 0; }
-        .unit { font-size: 1rem; color: #718096; }
-        /* Rimossi gli stili di input e button in quanto il form è stato eliminato */
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="header">
-        <h1>Monitoraggio Paziente</h1>
-        <div class="status-indicator">
-            Stato: <span id="status">Connessione...</span>
+    {{-- Header --}}
+    <div class="dash-header row between vertical_center margin_vertical_20">
+        <div class="column gap_10">
+            <h1 class="font_bold" style="font-size: 2rem; margin: 0;">Buongiorno, {{ auth()->user()->username }} 👋</h1>
+            <span class="role-badge paziente">Paziente</span>
+        </div>
+        <div class="status-dot row vertical_center gap_10">
+            <span class="dot" id="conn-dot"></span>
+            <span id="status" style="font-size: 0.9rem; opacity: 0.7;">Connessione...</span>
         </div>
     </div>
 
-    <div class="grid">
-        <div class="card">
-            <h3>Temperatura</h3>
-            <p>Ultimo aggiornamento dal topic <strong>esp32/dati</strong>:</p>
-            <div class="data-value">
-                <span id="temperatura-value">--</span>
-                <span class="unit">°C</span>
+    {{-- Dati sensori --}}
+    <div class="sensor-grid">
+
+        <div class="sensor-card box" id="card-temp">
+            <div class="sensor-top row between vertical_center">
+                <span class="sensor-label">🌡️ Temperatura</span>
+                <span class="sensor-time" id="temp-time">--</span>
+            </div>
+            <div class="sensor-value" id="temperatura-value">--</div>
+            <div class="sensor-unit">°C</div>
+            <div class="sensor-bar"><div class="bar-fill" id="temp-bar" style="width: 0%;"></div></div>
+        </div>
+
+        <div class="sensor-card box" id="card-hum">
+            <div class="sensor-top row between vertical_center">
+                <span class="sensor-label">💧 Umidità</span>
+                <span class="sensor-time" id="hum-time">--</span>
+            </div>
+            <div class="sensor-value" id="umidita-value">--</div>
+            <div class="sensor-unit">%</div>
+            <div class="sensor-bar"><div class="bar-fill blue" id="hum-bar" style="width: 0%;"></div></div>
+        </div>
+
+        <div class="sensor-card box" id="card-pir">
+            <div class="sensor-top row between vertical_center">
+                <span class="sensor-label">🚶 Movimento</span>
+                <span class="sensor-time" id="pir-time">--</span>
+            </div>
+            <div class="sensor-value" id="motion-value" style="font-size: 2rem;">--</div>
+            <div class="sensor-unit">rilevato</div>
+        </div>
+
+        <div class="sensor-card box column gap_10">
+            <span class="sensor-label">📦 Dispositivo</span>
+            <div id="device-mac" style="font-size: 0.85rem; opacity: 0.6; font-family: monospace;">--:--:--:--:--:--</div>
+            <div class="row gap_10 vertical_center" style="margin-top: 8px;">
+                <span class="dot green" id="device-dot"></span>
+                <span id="device-status" style="font-size: 0.85rem;">In attesa di dati...</span>
             </div>
         </div>
 
-        <div class="card">
-            <h3>Umidità</h3>
-            <p>Ultimo aggiornamento dal topic <strong>esp32/dati</strong>:</p>
-            <div class="data-value">
-                <span id="umidita-value">--</span>
-                <span class="unit">%</span>
+    </div>
+
+    {{-- Piano prescrizioni --}}
+    @php
+        $prescrizioni = auth()->user()->prescrizioni()->with('medicine')->get()->groupBy('day');
+        $giorni = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+    @endphp
+
+    <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
+        <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">💊 Piano Terapeutico</h2>
+
+        @if($prescrizioni->isEmpty())
+            <div class="empty-state column vertical_center text_center gap_10" style="padding: 30px 0; opacity: 0.5;">
+                <span style="font-size: 2.5rem;">📋</span>
+                <p>Nessuna prescrizione attiva.<br>Il tuo medico non ha ancora assegnato farmaci.</p>
             </div>
+        @else
+            <div class="prescription-grid">
+                @foreach($prescrizioni as $day => $items)
+                    <div class="day-block column gap_10">
+                        <div class="day-label font_bold">{{ $giorni[$day] ?? "G$day" }}</div>
+                        @foreach($items->sortBy('step') as $item)
+                            <div class="pill-item row vertical_center gap_10">
+                                <span class="pill-dot"></span>
+                                <span>{{ $item->medicine->name }}</span>
+                                <span class="pill-time">{{ substr($item->scheduled_time, 0, 5) }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+    {{-- Log ultimi eventi --}}
+    <div class="section-block box column gap_15 padding_orizontal_20 padding_vertical_20">
+        <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">📡 Stream in tempo reale</h2>
+        <div id="live-log" class="live-log column gap_10">
+            <p style="opacity: 0.4; font-size: 0.9rem;">In attesa di dati dal dispositivo...</p>
         </div>
     </div>
+
 </div>
 
-</body>
-</html>
+@vite(['resources/js/pages/dashboard_paziente.js'])
