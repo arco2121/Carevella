@@ -50,7 +50,6 @@ body {
     width: auto;
     border: solid 2px;
     box-shadow: 0 0 5px var(--background-tiles);
-    transition: all 0.3s ease-out;
 }
 
 .box:active {
@@ -237,7 +236,6 @@ h6 {
     font-weight: bold;
     cursor: pointer;
     text-decoration: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
     border: 2px solid transparent;
     font-family: "Fredoka", serif;
 }
@@ -277,7 +275,6 @@ h6 {
     border-radius: 16px;
     padding: 28px 20px;
     text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .feature-card:hover {
@@ -315,7 +312,6 @@ h6 {
     background: #aaa;
     display: inline-block;
     flex-shrink: 0;
-    transition: background 0.3s ease;
 }
 
 .dot.green   { background: #4caf50; box-shadow: 0 0 6px rgba(76,175,80,0.5); }
@@ -352,7 +348,6 @@ h6 {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
     background: var(--background-button);
     border-radius: 3px 3px 0 0;
 }
