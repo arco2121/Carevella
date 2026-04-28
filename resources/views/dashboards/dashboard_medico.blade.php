@@ -1,13 +1,13 @@
 <div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_20">
 
     {{-- Header --}}
-    <div class="dash-header row between vertical_center" style="animation: fade-in 0.4s ease-out; flex-wrap: wrap; gap: 15px;">
+    <div class="dash-header row between vertical_center">
         <div class="column gap_10">
             <h1 class="font_bold" style="font-size: 2rem; margin: 0;">Dashboard Medico 🩺</h1>
             <span class="role-badge medico">Dr. {{ auth()->user()->username }}</span>
         </div>
         <div class="row gap_15 vertical_center" style="flex-wrap: wrap;">
-            <a href="/dashboard/prescrizioni" class="cta-btn primary" style="text-decoration: none;">
+            <a href="/dashboard/prescrizioni" class="btn primary" style="text-decoration: none;">
                 💊 Gestione Prescrizioni
             </a>
             <div class="status-dot row vertical_center gap_10">
@@ -24,7 +24,7 @@
     @if($pazienti->isEmpty())
         {{-- Stato vuoto --}}
         <div class="section-block box column vertical_center text_center gap_20 padding_orizontal_20 padding_vertical_20"
-             style="min-height: 350px; justify-content: center; animation: fade-in 0.5s 0.1s ease-out both;">
+             style="min-height: 350px; justify-content: center;">
             <span style="font-size: 4rem;">👥</span>
             <h2 class="font_bold">Nessun paziente assegnato</h2>
             <p style="opacity: 0.6; max-width: 400px; margin: 0 auto;">
@@ -47,7 +47,7 @@
         </div>
 
         {{-- Sensori del paziente selezionato --}}
-        <div id="sensor-section" style="animation: fade-in 0.4s 0.15s ease-out both;">
+        <div id="sensor-section">
             <div class="sensor-grid">
 
                 <div class="sensor-card box" id="card-temp">
@@ -96,7 +96,7 @@
              style="animation: fade-in 0.4s 0.2s ease-out both;">
             <div class="row between vertical_center" style="flex-wrap: wrap; gap: 10px;">
                 <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">💊 Piano Terapeutico del Paziente</h2>
-                <a id="edit-prescription-btn" href="#" class="cta-btn secondary" style="text-decoration: none; font-size: 0.85rem; padding: 8px 15px;">
+                <a id="edit-prescription-btn" href="#" class="btn secondary" style="text-decoration: none; font-size: 0.85rem; padding: 8px 15px;">
                     ✏️ Modifica
                 </a>
             </div>

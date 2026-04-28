@@ -32,8 +32,9 @@ body {
     font-family: "Fredoka", serif;
     min-height: 100vh;
     margin: 0 auto;
+    opacity: 0;
     background: linear-gradient(to right, var(--background-color1), var(--background-color2));
-    animation: fase-in 0.2s ease-in-out forwards;
+    animation: fade-in 0.2s ease forwards;
 }
 
 /*GENERAL*/
@@ -144,6 +145,14 @@ button:active {
     height: 100vh;
 }
 
+.min_height_min {
+    height: 50px;
+}
+
+.orizionat_center {
+    justify-content: center;
+}
+
 h1 {
     font-size: 2.5rem;
     font-weight: bold;
@@ -226,9 +235,7 @@ h6 {
     margin: 0 auto;
 }
 
-.cta-btn {
-    display: inline-flex;
-    align-items: center;
+.btn {
     gap: 8px;
     border-radius: 12px;
     padding: 12px 24px;
@@ -240,25 +247,25 @@ h6 {
     font-family: "Fredoka", serif;
 }
 
-.cta-btn:active { transform: scale(0.96); }
+.btn:active { transform: scale(0.96); }
 
-.cta-btn.primary {
+.btn.primary {
     background: var(--background-button);
     color: #000;
     box-shadow: 0 4px 15px rgba(220,155,155,0.4);
 }
 
-.cta-btn.primary:hover {
+.btn.primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(220,155,155,0.5);
 }
 
-.cta-btn.secondary {
+.btn.secondary {
     background: var(--background-tiles);
     border-color: currentColor;
 }
 
-.cta-btn.secondary:hover { transform: translateY(-2px); }
+.btn.secondary:hover { transform: translateY(-2px); }
 
 .features-grid {
     display: grid;
@@ -292,6 +299,7 @@ h6 {
 
 .role-badge {
     display: inline-block;
+    border: solid var(--font-color) 2px;
     border-radius: 999px;
     padding: 4px 14px;
     font-size: 0.8rem;

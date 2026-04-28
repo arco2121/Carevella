@@ -7,10 +7,10 @@
 
         <div class="row gap_20 vertical_center" style="flex-wrap: wrap; justify-content: center;">
             @auth
-                <a href="/dashboard" class="cta-btn primary">Vai alla Dashboard →</a>
+                <a href="/dashboard" class="btn primary">Vai alla Dashboard →</a>
             @else
-                <a href="/login" class="cta-btn primary">Accedi al sistema →</a>
-                <a href="/register" class="cta-btn secondary">Crea account</a>
+                <a href="/login" class="btn primary">Accedi al sistema →</a>
+                <a href="/register" class="btn secondary">Crea account</a>
             @endauth
         </div>
     </div>

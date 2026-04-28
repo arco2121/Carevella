@@ -8,6 +8,7 @@
     <div class="row around vertical_center gap_20">
         @auth
             <a href="/dashboard">Dashboard</a>
+            <a href="{{ route('profilo') }}">Profilo</a>
             <a href="/logout">Logout</a>
         @endauth
         @guest

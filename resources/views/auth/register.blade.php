@@ -11,7 +11,7 @@
         @if ($errors->any())
             <div class="column gap_10 padding_vertical_15 text_center" style="color: #ff4d4d; font-weight: bold;">
                 @foreach ($errors->all() as $error)
-                    <span>{{ $error }}</span>
+                    <span style="color: red;">{{ $error }}</span>
                 @endforeach
             </div>
         @endif
@@ -55,7 +55,7 @@
 
             {{-- Azioni --}}
             <div class="column vertical_center gap_20 full_width">
-                <button type="submit" class="full-width">Registrati</button>
+                <button type="submit" class="btn primary full-width">Registrati</button>
 
                 <a href="{{ route('login') }}" class="text_center" style="font-size: 0.8rem; text-decoration: none; color: inherit; opacity: 0.7;">
                     Hai già un account? Accedi

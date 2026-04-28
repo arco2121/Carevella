@@ -36,7 +36,7 @@
 
             {{-- Azione --}}
             <div class="column gap_20 vertical_center full_width">
-                <button type="submit">Reset Link</button>
+                <button type="submit" class="primary btn full-width">Reset Link</button>
 
                 <a href="{{ route('login') }}" class="text_center" style="font-size: 0.8rem; text-decoration: none; color: inherit; opacity: 0.7;">
                     Torna al login

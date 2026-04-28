@@ -2,7 +2,7 @@
 use Illuminate\Contracts\View\View;
 
 function renderPage($page, $parametri = [
-    'title' => 'Caravel'
+    'title' => 'IOT Project'
 ]) : View {
     return view("layouts.app", [
         "page" => $page,

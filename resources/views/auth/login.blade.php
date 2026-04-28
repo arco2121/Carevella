@@ -37,7 +37,7 @@
             </div>
 
             <div class="column gap_20 full_width vertical_center">
-                <button type="submit" class="full-width">Entra</button>
+                <button type="submit" class="btn primary full-width">Entra</button>
 
                 @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}" style="font-size: 0.8rem; text-align: center;">

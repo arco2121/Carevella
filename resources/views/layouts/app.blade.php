@@ -13,7 +13,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/'.$css.'.css'])
 
     <link rel="icon" href="{{ asset('assets/icon.png')}}">
-    <title>{{ $title }}</title>
+    <title>{{ $title ?? 'IOT Project' }}</title>
 </head>
 <body>
     @include('components.navbar')
