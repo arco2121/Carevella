@@ -1,0 +1,34 @@
+services:
+  # IL SITO WEB
+  - type: web
+    name: laravel-web
+    env: docker
+    plan: free
+    region: frankfurt
+    # Comandi per far partire il sito e migrare il DB di Supabase
+    dockerCommand: "php artisan migrate --force && apache2-foreground"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DB_CONNECTION
+        value: pgsql
+      # Qui aggiungerai a mano le altre variabili (Host, User, Pass)
+      # direttamente dalla dashboard di Render o qui sotto
+
+  # WORKER REVERB
+  - type: worker
+    name: laravel-reverb
+    env: docker
+    dockerCommand: "php artisan reverb:start"
+
+  # WORKER MQTT LISTEN
+  - type: worker
+    name: laravel-mqtt-listen
+    env: docker
+    dockerCommand: "php artisan mqtt:listen"
+
+  # WORKER MQTT SUBSCRIBE
+  - type: worker
+    name: laravel-mqtt-subscribe
+    env: docker
+    dockerCommand: "php artisan mqtt:subscribe"
