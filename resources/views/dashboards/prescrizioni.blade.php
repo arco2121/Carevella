@@ -15,7 +15,7 @@
 
     {{-- ── Flash ── --}}
     @if(session('success'))
-        <div class="alert-success">✅ {{ session('success') }}</div>
+        <div class="alert-success">{{ session('success') }}</div>
     @endif
 
     @if($users->isEmpty())

@@ -9,7 +9,7 @@ COPY . .
 RUN npm run build
 
 # STAGE 2: PHP, Apache e Composer
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 # Installazione dipendenze di sistema
 RUN apt-get update && apt-get install -y \
