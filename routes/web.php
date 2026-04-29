@@ -93,8 +93,14 @@ Route::middleware('auth')->group(function () {
             ]);
         })->name('dashboard-medico');
 
-        Route::get('/dashboard/prescrizioni', [PrescriptionController::class, 'index'])->name('prescriptions.index');
-        Route::post('/dashboard/prescrizioni', [PrescriptionController::class, 'store'])->name('prescriptions.store');
+        Route::get('/dashboard/prescrizioni', [PrescriptionController::class, 'index'])
+            ->name('prescriptions.index');
+
+        Route::post('/dashboard/prescrizioni', [PrescriptionController::class, 'store'])
+            ->name('prescriptions.store');
+
+        Route::post('/dashboard/prescrizioni/{patientId}/clear', [PrescriptionController::class, 'clear'])
+            ->name('prescriptions.clear');
     });
 
     Route::middleware(CheckRole::class . ':famiglia')->group(function () {

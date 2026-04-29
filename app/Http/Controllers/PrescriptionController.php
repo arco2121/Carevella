@@ -12,15 +12,30 @@ class PrescriptionController extends Controller
 {
     public function index()
     {
-        // Mostra solo i pazienti assegnati al medico loggato
-        $medico = auth()->user();
+        $medico   = auth()->user();
+        $pazienti = $medico->pazienti()->where('role', 'paziente')->get();
+
+        $selectedPatientId = request('paziente') ?? $pazienti->first()?->id;
+
+        // Build a map of existing prescriptions: "day_step" => Prescription
+        $prescriptionMap = [];
+        if ($selectedPatientId) {
+            $existing = Prescription::where('patient_id', $selectedPatientId)
+                ->with('medicine')
+                ->get();
+            foreach ($existing as $p) {
+                $prescriptionMap[$p->day . '_' . $p->step] = $p;
+            }
+        }
 
         return renderPage('dashboards.prescrizioni', [
-            'users'     => $medico->pazienti()->where('role', 'paziente')->get(),
-            'medicines' => Medicine::all(),
-            'days'      => ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'],
-            'times'     => ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00'],
-            'title'     => 'Gestione Prescrizioni',
+            'title'             => 'Gestione Prescrizioni',
+            'users'             => $pazienti,
+            'medicines'         => Medicine::all(),
+            'days'              => ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'],
+            'times'             => ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00'],
+            'selectedPatientId' => $selectedPatientId,
+            'prescriptionMap'   => $prescriptionMap,
         ]);
     }
 
@@ -28,36 +43,43 @@ class PrescriptionController extends Controller
     {
         $medico    = auth()->user();
         $patientId = $request->input('patient_id');
-
-        // Verifica che il paziente appartenga davvero a questo medico
         $medico->pazienti()->where('id', $patientId)->firstOrFail();
 
-        $schedule = $request->input('schedule');
-
-        // Cancella il piano precedente per questo paziente
         Prescription::where('patient_id', $patientId)->delete();
 
-        // Salva il nuovo piano
-        if ($schedule) {
-            foreach ($schedule as $day => $steps) {
-                foreach ($steps as $step => $medicineId) {
-                    if ($medicineId) {
-                        $baseTime      = 8 + (($step - 1) * 2);
-                        $scheduledTime = sprintf('%02d:00:00', $baseTime);
+        $schedule = $request->input('schedule', []);
+        foreach ($schedule as $day => $steps) {
+            foreach ($steps as $step => $medicineId) {
+                if ($medicineId) {
+                    $hour          = 8 + (($step - 1) * 2);
+                    $scheduledTime = sprintf('%02d:00:00', $hour);
 
-                        Prescription::create([
-                            'patient_id'     => $patientId,
-                            'medicine_id'    => $medicineId,
-                            'day'            => $day,
-                            'step'           => $step,
-                            'scheduled_time' => $scheduledTime,
-                            'amount'         => 1,
-                        ]);
-                    }
+                    Prescription::create([
+                        'patient_id'     => $patientId,
+                        'medicine_id'    => $medicineId,
+                        'day'            => $day,
+                        'step'           => $step,
+                        'scheduled_time' => $scheduledTime,
+                        'amount'         => 1,
+                    ]);
                 }
             }
         }
 
-        return redirect()->back()->with('success', 'Piano prescrizioni aggiornato con successo!');
+        return redirect()
+            ->route('prescriptions.index', ['paziente' => $patientId])
+            ->with('success', 'Piano terapeutico salvato con successo!');
+    }
+
+    public function clear(int $patientId)
+    {
+        $medico = auth()->user();
+        $medico->pazienti()->where('id', $patientId)->firstOrFail();
+
+        Prescription::where('patient_id', $patientId)->delete();
+
+        return redirect()
+            ->route('prescriptions.index', ['paziente' => $patientId])
+            ->with('success', 'Piano terapeutico cancellato.');
     }
 }

@@ -33,8 +33,7 @@
         </div>
     @else
         {{-- Selezione paziente --}}
-        <div class="section-block box row vertical_center gap_20 padding_orizontal_20 padding_vertical_15"
-             style="animation: fade-in 0.4s 0.1s ease-out both; flex-wrap: wrap;">
+        <div class="section-block box row vertical_center gap_20 padding_orizontal_20 padding_vertical_15">
             <span class="font_bold" style="font-size: 1.1rem;">Paziente selezionato:</span>
             <select id="paziente-select" class="paziente-select font_normal"
                     style="background: var(--background-color1); border: 2px solid currentColor; border-radius: 10px; padding: 8px 15px; font-size: 1rem; cursor: pointer; flex: 1; min-width: 200px;">
@@ -92,8 +91,7 @@
         </div>
 
         {{-- Piano prescrizioni del paziente --}}
-        <div id="prescription-section" class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20"
-             style="animation: fade-in 0.4s 0.2s ease-out both;">
+        <div id="prescription-section" class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
             <div class="row between vertical_center" style="flex-wrap: wrap; gap: 10px;">
                 <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">💊 Piano Terapeutico del Paziente</h2>
                 <a id="edit-prescription-btn" href="#" class="btn secondary" style="text-decoration: none; font-size: 0.85rem; padding: 8px 15px;">
@@ -106,8 +104,7 @@
         </div>
 
         {{-- Stream live --}}
-        <div class="section-block box column gap_15 padding_orizontal_20 padding_vertical_20"
-             style="animation: fade-in 0.4s 0.3s ease-out both;">
+        <div class="section-block box column gap_15 padding_orizontal_20 padding_vertical_20">
             <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">📡 Stream in tempo reale</h2>
             <div id="live-log" class="live-log column gap_10">
                 <p style="opacity: 0.4; font-size: 0.9rem;">In attesa di dati dal dispositivo...</p>
