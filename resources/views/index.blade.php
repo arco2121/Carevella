@@ -1,4 +1,4 @@
-<section class="hero-section column vertical_center text_center min_height around padding_orizontal_20">
+<section class="hero-section column full-width vertical_center text_center min_height around padding_orizontal_20">
 
     <div class="column gap_20 vertical_center">
         <div class="pill-badge">IOT Project</div>
@@ -16,17 +16,17 @@
     </div>
 
     <div class="features-grid gap_20 margin_vertical_20">
-        <div class="feature-card" style="animation: fade-in 0.5s 0.1s ease-out both;">
+        <div class="feature-card">
             <div class="feature-icon">🌡️</div>
             <h3>Temperatura & Umidità</h3>
             <p>Monitoraggio continuo dei parametri ambientali del paziente via ESP32</p>
         </div>
-        <div class="feature-card" style="animation: fade-in 0.5s 0.2s ease-out both;">
+        <div class="feature-card">
             <div class="feature-icon">💊</div>
             <h3>Dispenser Automatico</h3>
             <p>Erogazione precisa dei farmaci secondo il piano terapeutico prescritto</p>
         </div>
-        <div class="feature-card" style="animation: fade-in 0.5s 0.3s ease-out both;">
+        <div class="feature-card">
             <div class="feature-icon">📡</div>
             <h3>Real-time via MQTT</h3>
             <p>Aggiornamenti istantanei tramite WebSocket, senza ricaricare la pagina</p>

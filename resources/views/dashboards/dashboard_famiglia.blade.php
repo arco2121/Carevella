@@ -1,16 +1,14 @@
 @php
-    $paziente = auth()->user()->medico; // il paziente è collegato al "doctor_id" del familiare
-    // In realtà la famiglia ha un doctor_id che punta al paziente
-    // Adattiamo: famiglia->doctor_id -> paziente
+    $paziente = auth()->user()->medico;
     $paziente = \App\Models\User::find(auth()->user()->doctor_id);
 @endphp
 
-<div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_20">
+<div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_40 full_width">
 
     {{-- Header --}}
     <div class="dash-header row between vertical_center" style="animation: fade-in 0.4s ease-out; flex-wrap: wrap; gap: 15px;">
         <div class="column gap_10">
-            <h1 class="font_bold" style="font-size: 2rem; margin: 0;">Vista Familiare 👨‍👩‍👧</h1>
+            <h1 class="font_bold" style="font-size: 2rem; margin: 0;">Vista Familiare</h1>
             @if($paziente)
                 <span class="role-badge famiglia">Monitorando: {{ $paziente->username }}</span>
             @else

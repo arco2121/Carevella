@@ -1,11 +1,15 @@
-<div class="column padding_orizontal_20 padding_vertical_20 min_height gap_20"
-     style="max-width: 1200px; margin: 0 auto; padding-bottom: 60px;">
+<div class="column padding_orizontal_20 padding_vertical_20 full-width min_height gap_60">
 
     {{-- ── Header ── --}}
     <div class="row between vertical_center" style="flex-wrap: wrap; gap: 15px;">
         <div class="column gap_10">
-            <h1 class="font_bold" style="font-size: 2rem; margin: 0;">💊 Gestione Prescrizioni</h1>
+            <h1 class="font_bold" style="font-size: 2rem; margin: 0;">Gestione Prescrizioni</h1>
             <span style="opacity: 0.6; font-size: 0.9rem;">Dr. {{ auth()->user()->username }}</span>
+        </div>
+        <div class="row gap_15" style="flex-wrap: wrap;">
+            <a href="{{ route('medicines.index') }}" class="btn secondary" style="text-decoration: none; aspect-ratio: unset; padding: 10px 20px;">
+                Gestione Farmaci
+            </a>
         </div>
     </div>
 
@@ -58,7 +62,10 @@
         {{-- ── No medicines warning ── --}}
         @if($medicines->isEmpty())
             <div class="alert-warning">
-                ⚠️ Nessun farmaco nel database. Prima di creare prescrizioni, aggiungi almeno un farmaco.
+                ⚠️ Nessun farmaco nel database.
+                <a href="{{ route('medicines.index') }}" style="font-weight: bold; color: inherit;">
+                    Aggiungi almeno un farmaco →
+                </a>
             </div>
         @elseif($selectedPatientId)
 
@@ -76,7 +83,7 @@
                                 Seleziona un farmaco per ogni slot — lascia vuoto per nessuna somministrazione
                             </span>
                         </div>
-                        <button type="submit" class="btn primary presc-save-btn">💾 Salva Piano</button>
+                        <button type="submit" class="btn primary presc-save-btn">Salva Piano</button>
                     </div>
 
                     <div style="overflow-x: auto; width: 100%;">
@@ -121,10 +128,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <div class="row" style="justify-content: flex-end; padding-top: 8px;">
-                        <button type="submit" class="btn primary presc-save-btn">💾 Salva Piano Terapeutico</button>
-                    </div>
                 </div>
             </form>
 
@@ -138,7 +141,7 @@
             @if($totalCount > 0)
                 <div class="section-block box column gap_15 padding_orizontal_20 padding_vertical_20">
                     <div class="row vertical_center gap_15">
-                        <h2 class="font_bold" style="margin: 0; font-size: 1.2rem;">📋 Prescrizioni attive</h2>
+                        <h2 class="font_bold" style="margin: 0; font-size: 1.2rem;">Prescrizioni attive</h2>
                         <span class="summary-count">{{ $totalCount }}</span>
                     </div>
 
@@ -160,7 +163,6 @@
             @else
                 <div class="section-block box row vertical_center gap_15 padding_orizontal_20 padding_vertical_15"
                      style="opacity: 0.55;">
-                    <span style="font-size: 1.8rem;">📋</span>
                     <p style="margin: 0;">Nessuna prescrizione attiva per questo paziente.
                         Usa la griglia sopra per impostare il piano terapeutico.</p>
                 </div>

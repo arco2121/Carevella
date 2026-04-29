@@ -6,6 +6,7 @@ function renderPage($page, $parametri = [
 ]) : View {
     return view("layouts.app", [
         "page" => $page,
+        'version' => env('VERSION', '1.0.0'),
         'title' => $parametri["title"],
         'params' => $parametri
     ]);

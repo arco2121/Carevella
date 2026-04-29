@@ -1,9 +1,9 @@
-<div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_20">
+<div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_40 full_width">
 
     {{-- Header --}}
     <div class="dash-header row between vertical_center margin_vertical_20">
         <div class="column gap_10">
-            <h1 class="font_bold" style="font-size: 2rem; margin: 0;">Buongiorno, {{ auth()->user()->username }} 👋</h1>
+            <h1 class="font_bold" style="font-size: 2rem; margin: 0;">Buongiorno, {{ auth()->user()->username }}</h1>
             <span class="role-badge paziente">Paziente</span>
         </div>
         <div class="status-dot row vertical_center gap_10">
@@ -62,11 +62,10 @@
     @endphp
 
     <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
-        <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">💊 Piano Terapeutico</h2>
+        <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">Piano Terapeutico</h2>
 
         @if($prescrizioni->isEmpty())
             <div class="empty-state column vertical_center text_center gap_10" style="padding: 30px 0; opacity: 0.5;">
-                <span style="font-size: 2.5rem;">📋</span>
                 <p>Nessuna prescrizione attiva.<br>Il tuo medico non ha ancora assegnato farmaci.</p>
             </div>
         @else
@@ -89,7 +88,7 @@
 
     {{-- Log ultimi eventi --}}
     <div class="section-block box column gap_15 padding_orizontal_20 padding_vertical_20">
-        <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">📡 Stream in tempo reale</h2>
+        <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">Stream in tempo reale</h2>
         <div id="live-log" class="live-log column gap_10">
             <p style="opacity: 0.4; font-size: 0.9rem;">In attesa di dati dal dispositivo...</p>
         </div>

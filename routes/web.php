@@ -2,6 +2,7 @@
 
 require_once "functions.php";
 
+use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\MqttController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Middleware\CheckRole;
@@ -58,7 +59,7 @@ Route::middleware('auth')->group(function () {
     })->middleware(CheckRole::class . ':paziente')->name('profilo.assegna-medico');
 
     Route::get('/api/paziente/{id}/prescrizioni', function ($id) {
-        $medico  = auth()->user();
+        $medico   = auth()->user();
         $paziente = $medico->pazienti()->where('id', $id)->firstOrFail();
 
         $prescrizioni = $paziente->prescrizioni()
@@ -101,6 +102,18 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/dashboard/prescrizioni/{patientId}/clear', [PrescriptionController::class, 'clear'])
             ->name('prescriptions.clear');
+
+        Route::get('/dashboard/farmaci', [MedicineController::class, 'index'])
+            ->name('medicines.index');
+
+        Route::post('/dashboard/farmaci', [MedicineController::class, 'store'])
+            ->name('medicines.store');
+
+        Route::put('/dashboard/farmaci/{medicine}', [MedicineController::class, 'update'])
+            ->name('medicines.update');
+
+        Route::delete('/dashboard/farmaci/{medicine}', [MedicineController::class, 'destroy'])
+            ->name('medicines.destroy');
     });
 
     Route::middleware(CheckRole::class . ':famiglia')->group(function () {

@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/pages/test.js',
                 'resources/js/pages/dashboard_medico.js',
                 'resources/js/pages/dashboard_paziente.js',
+                'resources/js/pages/farmaci.js',
                 'resources/css/test.css',
                 'resources/js/app.js',
                 "resources/js/bridge.js",

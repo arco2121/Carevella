@@ -1,4 +1,4 @@
-<div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_20">
+<div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_40">
 
     {{-- Flash success --}}
     @if(session('success'))
@@ -33,10 +33,10 @@
 
         {{-- Medico attuale --}}
         <div class="section-block box column gap_15 padding_orizontal_20 padding_vertical_20">
-            <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">👨‍⚕️ Il mio Medico</h2>
+            <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">Il mio Medico</h2>
 
             @if($user->medico)
-                <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10" style="width: fit-content;">
+                <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10 full-width">
                     <div class="avatar-circle" style="background: #b8d4f0; width: 44px; height: 44px; font-size: 1.2rem; min-width: 44px;">
                         {{ strtoupper(substr($user->medico->username, 0, 1)) }}
                     </div>
@@ -56,7 +56,7 @@
         {{-- Form cambio medico --}}
         <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
             <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">
-                {{ $user->doctor_id ? '🔄 Cambia Medico' : '➕ Assegna un Medico' }}
+                {{ $user->doctor_id ? 'Cambia Medico' : 'Assegna un Medico' }}
             </h2>
 
             @if($user->doctor_id)
@@ -117,8 +117,7 @@
             @else
                 <div class="column gap_10">
                     @foreach($pazienti_list as $paz)
-                        <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10"
-                             style="transition: transform 0.15s ease;">
+                        <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10">
                             <div class="avatar-circle" style="width: 42px; height: 42px; font-size: 1.1rem; min-width: 42px;">
                                 {{ strtoupper(substr($paz->username, 0, 1)) }}
                             </div>
@@ -138,7 +137,7 @@
         @php $pazienteCollegato = \App\Models\User::find($user->doctor_id); @endphp
 
         <div class="section-block box column gap_15 padding_orizontal_20 padding_vertical_20">
-            <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">👤 Paziente Monitorato</h2>
+            <h2 class="font_bold" style="margin: 0; font-size: 1.4rem;">Paziente Monitorato</h2>
 
             @if($pazienteCollegato)
                 <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10" style="width: fit-content;">
