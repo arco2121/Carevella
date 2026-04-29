@@ -1,4 +1,4 @@
-<section class="hero-section column full-width vertical_center text_center min_height around padding_orizontal_20">
+<section class="hero-section column full-width vertical_center text_center min_height around padding_orizontal_20 gap_60">
 
     <div class="column gap_20 vertical_center">
         <div class="pill-badge">IOT Project</div>
