@@ -19,10 +19,10 @@
     <title>{{ $title ?? 'IOT Project' }}</title>
 </head>
 <body>
-    @include('components.navbar')
+@include('layouts.navbar')
 
-    @include($page, $params)
+@include($page, $params)
 
-    @include('components.footer')
+@include('layouts.footer')
 </body>
 </html>

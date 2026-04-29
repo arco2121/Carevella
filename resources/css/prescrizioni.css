@@ -1,0 +1,90 @@
+.presc-table { width: 100%; border-collapse: separate; border-spacing: 6px; min-width: 680px; }
+
+.presc-table thead th {
+    padding: 10px 6px;
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    font-weight: bold;
+    text-align: center;
+}
+.presc-table thead th.time-col { text-align: left; width: 72px; }
+.presc-table tbody td          { padding: 4px 3px; vertical-align: middle; }
+.presc-table tbody td.time-cell { padding: 4px 6px; }
+
+.time-badge {
+    display: inline-block;
+    background: var(--background-color1);
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    white-space: nowrap;
+    width: 62px;
+    text-align: center;
+}
+
+.med-select {
+    width: 100%;
+    background: var(--background-tiles);
+    border: 2px solid rgba(0,0,0,0.10);
+    border-radius: 10px;
+    padding: 7px 6px;
+    font-size: 0.80rem;
+    font-family: "Fredoka", serif;
+    cursor: pointer;
+    color: var(--font-color);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(0,0,0,0.3)'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-color: var(--background-tiles);
+    padding-right: 22px;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.med-select:focus    { border-color: var(--background-button); outline: none; }
+.med-select.has-value {
+    border-color: var(--background-button);
+    background-color: rgba(220,155,155,0.08);
+}
+
+.patient-select-wrap {
+    background: var(--background-color1);
+    border: 2px solid currentColor;
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-size: 1rem;
+    font-family: "Fredoka", serif;
+    cursor: pointer;
+    flex: 1;
+    min-width: 200px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(0,0,0,0.4)'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+
+.presc-save-btn {
+    aspect-ratio: unset !important;
+    padding: 11px 28px !important;
+    font-size: 1.05rem !important;
+    border-radius: 12px !important;
+}
+
+.danger-btn {
+    background: rgba(220,53,69,0.1) !important;
+    border: 2px solid #dc3545 !important;
+    color: #dc3545 !important;
+    aspect-ratio: unset !important;
+    padding: 8px 16px !important;
+    border-radius: 10px !important;
+    font-family: "Fredoka", serif;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.danger-btn:hover { background: rgba(220,53,69,0.18) !important; }

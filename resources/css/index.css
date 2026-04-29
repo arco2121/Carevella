@@ -1,0 +1,51 @@
+.hero-title {
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: bold;
+    line-height: 1.1;
+    letter-spacing: -1px;
+}
+
+.hero-sub {
+    font-size: 1.15rem;
+    font-weight: lighter;
+    max-width: 520px;
+    margin: 0 auto;
+    opacity: 0.75;
+    line-height: 1.7;
+}
+
+.pill-badge {
+    display: inline-block;
+    background: var(--background-button);
+    border-radius: 999px;
+    padding: 5px 18px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: var(--background-tiles);
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+}
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+.feature-icon  { font-size: 2rem; margin-bottom: 10px; display: block; }
+.feature-card h3 { font-size: 1.1rem; font-weight: bold; margin: 0 0 8px; }
+.feature-card p  { font-size: 0.85rem; opacity: 0.65; margin: 0; line-height: 1.6; }

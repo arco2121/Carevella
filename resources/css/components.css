@@ -1,0 +1,73 @@
+.dash-header { flex-wrap: wrap; gap: 15px; }
+.dash-title  { font-size: 2rem; margin: 0; }
+.dash-status { flex-wrap: wrap; }
+
+.status-label { font-size: 0.9rem; opacity: 0.7; }
+
+.paziente-select {
+    cursor: pointer;
+    max-width: 50%;
+    background: var(--background-color1);
+    border: 2px solid currentColor;
+    border-radius: 10px;
+    padding: 8px 15px;
+    font-size: 1rem;
+    flex: 1;
+}
+.paziente-select option   { background: var(--background-tiles); }
+.paziente-select-label    { font-size: 1.1rem; }
+
+.device-mac          { font-size: 0.85rem; opacity: 0.6; font-family: monospace; }
+.device-status-row   { margin-top: 8px; }
+.device-status-text  { font-size: 0.85rem; }
+
+.sensor-value--motion { font-size: 2rem; }
+
+.presc-header { flex-wrap: wrap; gap: 10px; }
+
+.placeholder-text { opacity: 0.4; font-size: 0.9rem; }
+
+.empty-desc { opacity: 0.6; max-width: 400px; margin: 0 auto; }
+
+.btn-sm { font-size: 0.85rem; padding: 8px 15px; }
+
+/* Profilo */
+.profilo-username      { font-size: 1.5rem; }
+.profilo-email         { opacity: 0.6; font-size: 0.85rem; }
+.profilo-error         { color: #dc3545; font-size: 0.85rem; }
+.profilo-no-medico     { opacity: 0.5; padding: 10px 0; }
+.profilo-badge-right   { margin-left: auto; }
+.profilo-paziente-card { width: fit-content; }
+.profilo-doctor-select {
+    background: var(--background-color1);
+    border: 2px solid currentColor;
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-family: "Fredoka", serif;
+    max-width: 450px;
+}
+
+/* Farmaci */
+.farm-subtitle      { opacity: 0.6; font-size: 0.9rem; }
+.farm-section-title { margin: 0; font-size: 1.2rem; }
+.farm-list-title    { margin-bottom: 16px; }
+.farm-stats         { flex-wrap: wrap; }
+.farm-nav-btn       { text-decoration: none; aspect-ratio: unset; padding: 10px 22px; }
+
+/* Prescrizioni */
+.presc-page-header  { flex-wrap: wrap; gap: 15px; }
+.presc-nav          { flex-wrap: wrap; }
+.presc-nav-btn      { text-decoration: none; aspect-ratio: unset; padding: 10px 20px; }
+.presc-patient-row  { flex-wrap: wrap; }
+.presc-patient-label { font-size: 1rem; white-space: nowrap; opacity: 0.8; }
+.presc-patient-form { flex: 1; min-width: 200px; }
+.presc-hint         { font-size: 0.85rem; opacity: 0.55; }
+.presc-warning-link { font-weight: bold; color: inherit; }
+.presc-empty-note   { opacity: 0.55; }
+.presc-table-wrap   { overflow-x: auto; width: 100%; }
+
+/* Paziente (famiglia dashboard) */
+.paziente-name   { font-size: 1.2rem; }
+.paziente-email  { opacity: 0.6; font-size: 0.85rem; }
+.paziente-online { margin-left: auto; }

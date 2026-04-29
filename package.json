@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "builda": "npm install && composer install && php artisan migrate:fresh && php artisan key:generate",
+        "build_app": "npm install && composer install && php artisan migrate:fresh && php artisan key:generate",
         "dev": "vite",
         "app": "concurrently \"npm run dev\" \"php artisan mqtt:listen\" \"php artisan mqtt:subscribe\" \"php artisan reverb:start\" \"php artisan serve\"",
         "database": "php artisan migrate --pretend"
