@@ -1,5 +1,5 @@
 @php
-    $paziente = \App\Models\User::find(auth()->user()->doctor_id);
+    $paziente = auth()->user()->pazientiSeguiti()->first();
 @endphp
 
 <div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_40 full_width">
@@ -23,7 +23,7 @@
         <div class="section-block box column vertical_center text_center gap_20 padding_orizontal_20 padding_vertical_20 empty-state">
             <span class="empty-icon">🔗</span>
             <h2 class="font_bold">Nessun paziente collegato</h2>
-            <p class="empty-desc">Il tuo account familiare non è ancora stato collegato a nessun paziente. Contatta il medico o l'amministrazione.</p>
+            <p class="empty-desc">Il tuo account familiare non è ancora stato collegato a nessun paziente. Contatta il medico del paziente.</p>
         </div>
     @else
         <div class="section-block box row vertical_center gap_20 padding_orizontal_20 padding_vertical_15">

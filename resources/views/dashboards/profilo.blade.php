@@ -75,34 +75,43 @@
             @endif
         </div>
 
-    @elseif($user->role === 'medico')
+        @elseif($user->role === 'medico')
 
-        <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
-            <div class="row between vertical_center presc-header">
-                <h2 class="font_bold section-title">👥 I miei Pazienti ({{ $pazienti_list->count() }})</h2>
-                <a href="/dashboard/prescrizioni" class="btn primary" style="text-decoration: none;">💊 Gestisci Prescrizioni</a>
-            </div>
-
-            @if($pazienti_list->isEmpty())
-                <div class="empty-state column vertical_center text_center gap_10">
-                    <span class="empty-icon">👥</span>
-                    <p>Nessun paziente assegnato ancora.<br>I pazienti si assegnano da soli dalla loro pagina profilo.</p>
+            <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
+                <div class="row between vertical_center presc-header">
+                    <h2 class="font_bold section-title">👥 I miei Pazienti ({{ $pazienti_list->count() }})</h2>
+                    <a href="/dashboard/prescrizioni" class="btn primary">Gestione Prescrizioni</a>
                 </div>
-            @else
-                <div class="column gap_10">
-                    @foreach($pazienti_list as $paz)
-                        <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10">
-                            <div class="avatar-circle avatar-sm">{{ strtoupper(substr($paz->username, 0, 1)) }}</div>
-                            <div class="column gap_10">
-                                <span class="font_bold">{{ $paz->username }}</span>
-                                <span class="profilo-email">{{ $paz->email }}</span>
+
+                @if($pazienti_list->isEmpty())
+                    <div class="empty-state column vertical_center text_center gap_10">
+                        <span class="empty-icon">👥</span>
+                        <p>Nessun paziente assegnato ancora.<br>I pazienti si assegnano da soli dalla loro pagina profilo.</p>
+                    </div>
+                @else
+                    <div class="column gap_10">
+                        @foreach($pazienti_list as $paz)
+                            <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10">
+                                <div class="avatar-circle avatar-sm">{{ strtoupper(substr($paz->username, 0, 1)) }}</div>
+                                <div class="column gap_10">
+                                    <span class="font_bold">{{ $paz->username }}</span>
+                                    <span class="profilo-email">{{ $paz->email }}</span>
+                                    @php $famCount = $paz->familiari()->count(); @endphp
+                                    @if($famCount > 0)
+                                        <span>
+                                            {{ $famCount }} familiare{{ $famCount > 1 ? 'i' : '' }} collegat{{ $famCount > 1 ? 'i' : 'o' }}
+                                    </span>
+                                    @endif
+                                </div>
+                                <span class="role-badge paziente profilo-badge-right">paziente</span>
+                                <a href="{{ route('family.index', $paz) }}"
+                                   class="btn secondary">Familiari
+                                </a>
                             </div>
-                            <span class="role-badge paziente profilo-badge-right">paziente</span>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-        </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
 
     @elseif($user->role === 'famiglia')
 

@@ -7,12 +7,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // Definisce le colonne abilitate al mass assignment (es. tramite User::create)
     protected $fillable = [
         'username',
         'email',
@@ -21,13 +21,11 @@ class User extends Authenticatable
         'doctor_id'
     ];
 
-    // Esclude questi campi sensibili durante la serializzazione in array o JSON
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    // Applica il cast automatico dei tipi per i campi specificati
     protected function casts(): array
     {
         return [
@@ -58,5 +56,17 @@ class User extends Authenticatable
     public function prescrizioni(): HasMany
     {
         return $this->hasMany(Prescription::class, 'patient_id');
+    }
+
+    // Relazione many-to-many: i familiari che seguono questo paziente
+    public function familiari(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'patient_family', 'patient_id', 'family_id');
+    }
+
+    // Relazione many-to-many (inversa): i pazienti seguiti da questo familiare
+    public function pazientiSeguiti(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'patient_family', 'family_id', 'patient_id');
     }
 }

@@ -2,6 +2,7 @@
 
 require_once "functions.php";
 
+use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\MqttController;
 use App\Http\Controllers\PrescriptionController;
@@ -114,6 +115,15 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('/dashboard/farmaci/{medicine}', [MedicineController::class, 'destroy'])
             ->name('medicines.destroy');
+
+        Route::get('/dashboard/pazienti/{paziente}/familiari', [FamilyController::class, 'index'])
+            ->name('family.index');
+
+        Route::post('/dashboard/pazienti/{paziente}/familiari', [FamilyController::class, 'attach'])
+            ->name('family.attach');
+
+        Route::delete('/dashboard/pazienti/{paziente}/familiari/{familiare}', [FamilyController::class, 'detach'])
+            ->name('family.detach');
     });
 
     Route::middleware(CheckRole::class . ':famiglia')->group(function () {
