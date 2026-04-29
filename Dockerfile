@@ -7,9 +7,7 @@ RUN npm run build
 
 FROM php:8.4-apache
 
-# Fix log Apache
-RUN ln -sf /dev/stdout /var/log/apache2/access.log && ln -sf /dev/stderr /var/log/apache2/error.log
-
+# Installazione dipendenze
 RUN apt-get update && apt-get install -y \
     libpng-dev libonig-dev libxml2-dev libpq-dev zip unzip git curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -21,9 +19,11 @@ RUN npm install -g concurrently
 
 RUN a2enmod rewrite
 
-# Diciamo ad Apache di ascoltare sulla porta 8080 (che Render sembra preferire nel tuo caso)
-RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf
-RUN sed -i 's/:80/:8080/' /etc/apache2/sites-available/000-default.conf
+# FIX DEFINITIVO LOG E PORTA
+RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf && \
+    sed -i 's/:80/:8080/' /etc/apache2/sites-available/000-default.conf && \
+    sed -i 's/ErrorLog .*/ErrorLog \/dev\/stderr/' /etc/apache2/apache2.conf && \
+    sed -i 's/CustomLog .*/CustomLog \/dev\/stdout combined/' /etc/apache2/apache2.conf
 
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
@@ -38,7 +38,7 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Esponiamo la 8080
 EXPOSE 8080
 
-CMD ["concurrently", "apache2-foreground", "php artisan reverb:start", "php artisan mqtt:listen"]
+# AGGIORNATO: Esegue la migrazione all'avvio, poi lancia i servizi
+CMD php artisan migrate --force && concurrently "apache2-foreground" "php artisan reverb:start" "php artisan mqtt:listen"
