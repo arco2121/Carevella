@@ -197,7 +197,7 @@ h6 {
     transition: all 0.15s ease-in;
 }
 
-@media (hover: hover) {
+@media (orientation: landscape) {
     .navbar:hover {
         scale: 1.01;
         box-shadow: 0 15px 15px var(--background-tiles);
