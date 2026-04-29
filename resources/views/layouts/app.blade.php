@@ -11,9 +11,9 @@
         $css = explode("_", $pageInt[sizeof($pageInt) - 1])[0];
     @endphp
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-                  @if(file_exists(resource_path('css/index.css')))
-    @vite(['resources/css/'.$css.'.css'])
-@endif
+    @if(file_exists(resource_path('css/index.css')))
+        @vite(['resources/css/'.$css.'.css'])
+    @endif
 
     <link rel="icon" href="{{ asset('assets/icon.png')}}">
     <title>{{ $title ?? 'IOT Project' }}</title>
