@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
             $data['medici'] = User::where('role', 'medico')->get();
         } elseif ($user->role === 'medico') {
             $data['pazienti_list'] = $user->pazienti()->where('role', 'paziente')->get();
+        } elseif ($user->role === 'famiglia') {
+            // Usa la relazione many-to-many corretta
+            $data['pazientiSeguiti'] = $user->pazientiSeguiti()->with('medico')->get();
         }
 
         return renderPage('dashboards.profilo', $data);
@@ -127,8 +130,15 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware(CheckRole::class . ':famiglia')->group(function () {
-        Route::get('/dashboard-famiglia', fn() => renderPage("dashboards.dashboard_famiglia", ['title' => 'Dashboard Famiglia']))
-            ->name('dashboard-famiglia');
+        Route::get('/dashboard-famiglia', function () {
+            $user           = auth()->user();
+            $pazientiSeguiti = $user->pazientiSeguiti()->get();
+
+            return renderPage("dashboards.dashboard_famiglia", [
+                'title'           => 'Dashboard Famiglia',
+                'pazientiSeguiti' => $pazientiSeguiti,
+            ]);
+        })->name('dashboard-famiglia');
     });
 
 });
