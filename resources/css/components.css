@@ -61,7 +61,7 @@
 .presc-nav-btn      { text-decoration: none; aspect-ratio: unset; padding: 10px 20px; }
 .presc-patient-row  { flex-wrap: wrap; }
 .presc-patient-label { font-size: 1rem; white-space: nowrap; opacity: 0.8; }
-.presc-patient-form { flex: 1; min-width: 200px; }
+.presc-patient-form { flex:1; min-width: 200px; }
 .presc-hint         { font-size: 0.85rem; opacity: 0.55; }
 .presc-warning-link { font-weight: bold; color: inherit; }
 .presc-empty-note   { opacity: 0.55; }
@@ -71,3 +71,33 @@
 .paziente-name   { font-size: 1.2rem; }
 .paziente-email  { opacity: 0.6; font-size: 0.85rem; }
 .paziente-online { margin-left: auto; }
+
+
+.btn-icon {
+    border: 2px solid transparent;
+    border-radius: 9px;
+    padding: 6px 13px;
+    font-size: 0.82rem;
+    font-family: "Fredoka", serif;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.25s ease;
+    aspect-ratio: unset;
+    min-width: unset;
+}
+.btn-icon.edit { background: var(--background-color2); border-color: rgba(0,0,0,0.12); }
+.btn-icon.edit:hover { border-color: rgba(0,0,0,0.3); }
+.btn-icon.delete { background: rgba(220,53,69,0.08); border-color: rgba(220,53,69,0.3); color: #c0392b; }
+.btn-icon.delete:hover { background: rgba(220,53,69,0.16); border-color: #dc3545; }
+.btn-icon.delete:disabled { opacity: 0.35; cursor: not-allowed; }
+
+kbd {
+    display: inline-block;
+    background: var(--background-color1);
+    border: 1px solid rgba(0,0,0,0.18);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.78rem;
+    font-family: monospace;
+    line-height: 1.4;
+}

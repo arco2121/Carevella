@@ -6,6 +6,7 @@ use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\MqttController;
 use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\PrescriptionLogController;
 use App\Http\Middleware\CheckRole;
 use App\Models\Medicine;
 use App\Models\Prescription;
@@ -83,6 +84,17 @@ Route::middleware('auth')->group(function () {
     Route::middleware(CheckRole::class . ':paziente')->group(function () {
         Route::get('/dashboard-paziente', fn() => renderPage("dashboards.dashboard_paziente", ['title' => 'Dashboard Paziente']))
             ->name('dashboard-paziente');
+
+        Route::post(
+            '/paziente/log/{prescription}/{date}',
+            [PrescriptionLogController::class, 'toggle']
+        )->name('prescription.log.toggle');
+
+        Route::get(
+            '/api/paziente/{id}/log-settimanale',
+            [PrescriptionLogController::class, 'weeklyForPatient']
+        )->middleware(CheckRole::class . ':medico');
+
     });
 
     Route::middleware(CheckRole::class . ':medico')->group(function () {

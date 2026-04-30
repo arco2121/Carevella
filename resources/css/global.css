@@ -42,12 +42,14 @@ body {
     display: flex;
     flex-direction: row;
     height: auto;
+    width: auto;
 }
 
 .column {
     display: flex;
     flex-direction: column;
     width: auto;
+    height: auto;
 }
 
 .full_width  { width: 100%; }
@@ -434,4 +436,8 @@ button:active { scale: 0.9; }
 
 .nobounce:active {
     scale: 1;
+}
+
+.contents {
+    display: contents;
 }

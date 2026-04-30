@@ -86,17 +86,6 @@
     background-color: rgba(220,155,155,0.06);
 }
 
-kbd {
-    display: inline-block;
-    background: var(--background-color1);
-    border: 1px solid rgba(0,0,0,0.18);
-    border-radius: 4px;
-    padding: 1px 5px;
-    font-size: 0.78rem;
-    font-family: monospace;
-    line-height: 1.4;
-}
-
 .patient-select-wrap {
     background: var(--background-color1);
     border: 2px solid currentColor;

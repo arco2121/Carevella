@@ -7,7 +7,7 @@
 
         <div class="row gap_20 vertical_center hero-cta">
             @auth
-                <a href="/dashboard" class="btn primary">Vai alla Dashboard →</a>
+                <a href="/dashboard" class="btn primary">Vai alla Dashboard</a>
             @else
                 <a href="/login" class="btn primary">Accedi al sistema</a>
                 <a href="/register" class="btn secondary">Crea account</a>

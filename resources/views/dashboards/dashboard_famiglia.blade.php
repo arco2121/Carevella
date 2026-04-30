@@ -34,8 +34,8 @@
         @if($pazientiSeguiti->count() > 1)
             <div class="section-block box row between vertical_center gap_20 padding_orizontal_20 padding_vertical_15">
                 <span class="font_bold paziente-select-label">Paziente selezionato:</span>
-                <form method="GET" action="{{ route('dashboard-famiglia') }}" id="paziente-form" class="row vertical_center gap_15 presc-patient-form">
-                    <select name="paziente" class="paziente-select font_normal"
+                <form method="GET" action="{{ route('dashboard-famiglia') }}" id="paziente-form" class="contents">
+                    <select name="paziente" class="paziente-select font_normal row vertical_center gap_15 presc-patient-form"
                             onchange="document.getElementById('paziente-form').submit()">
                         @foreach($pazientiSeguiti as $p)
                             <option value="{{ $p->id }}" {{ $selectedId == $p->id ? 'selected' : '' }}>
@@ -55,7 +55,7 @@
                     <span class="font_bold paziente-name">{{ $paziente->username }}</span>
                     <span class="paziente-email">{{ $paziente->email }}</span>
                     @if($paziente->medico)
-                        <span class="device-mac">Medico: {{ $paziente->medico->username }}</span>
+                        <span class="device-mac"><kbd>Medico: {{ $paziente->medico->username }}</kbd></span>
                     @endif
                 </div>
                 <div class="row gap_10 vertical_center paziente-online">

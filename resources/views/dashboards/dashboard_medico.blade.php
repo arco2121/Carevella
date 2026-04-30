@@ -80,7 +80,7 @@
         <div id="prescription-section" class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
             <div class="row between vertical_center presc-header">
                 <h2 class="font_bold section-title">Piano Terapeutico del Paziente</h2>
-                <a id="edit-prescription-btn" href="#" class="btn edit secondary btn-sm">✏️ Modifica</a>
+                <a id="edit-prescription-btn" href="#" class="btn btn-icon edit secondary btn-sm">✏️ Modifica</a>
             </div>
             <div id="prescription-content">
                 <p class="placeholder-text">Seleziona un paziente per vedere le prescrizioni.</p>
