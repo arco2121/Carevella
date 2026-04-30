@@ -23,7 +23,7 @@
     @else
 
         <div class="section-block box padding_orizontal_20 padding_vertical_15 row vertical_center gap_20 presc-patient-row">
-            <span class="font_bold presc-patient-label">👤 Paziente:</span>
+            <span class="font_bold presc-patient-label">Paziente:</span>
             <form method="GET" action="{{ route('prescriptions.index') }}" id="patient-form"
                   class="row vertical_center gap_15 presc-patient-form">
                 <select name="paziente" class="patient-select-wrap"

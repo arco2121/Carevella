@@ -79,7 +79,7 @@
 
             <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
                 <div class="row between vertical_center presc-header">
-                    <h2 class="font_bold section-title">👥 I miei Pazienti ({{ $pazienti_list->count() }})</h2>
+                    <h2 class="font_bold section-title">I miei Pazienti ({{ $pazienti_list->count() }})</h2>
                     <a href="/dashboard/prescrizioni" class="btn primary">Gestione Prescrizioni</a>
                 </div>
 
