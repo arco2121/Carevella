@@ -9,7 +9,7 @@
             @auth
                 <a href="/dashboard" class="btn primary">Vai alla Dashboard →</a>
             @else
-                <a href="/login" class="btn primary">Accedi al sistema →</a>
+                <a href="/login" class="btn primary">Accedi al sistema</a>
                 <a href="/register" class="btn secondary">Crea account</a>
             @endauth
         </div>
