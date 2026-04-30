@@ -282,7 +282,8 @@ button:active { scale: 0.9; }
     gap: 6px;
     position: relative;
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.2s ease, box-shadow 0.2s ease;
+    border: none;
 }
 .sensor-card::before {
     content: '';
@@ -347,6 +348,8 @@ button:active { scale: 0.9; }
     font-size: 0.85rem;
     flex-wrap: wrap;
     gap: 6px;
+    overflow: auto;
+    text-overflow: ellipsis;
 }
 .pill-dot {
     width: 7px;
