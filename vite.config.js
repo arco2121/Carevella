@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/pages/dashboard_medico.js',
                 'resources/js/pages/dashboard_paziente.js',
                 'resources/js/pages/farmaci.js',
+                'resources/js/pages/prescrizioni.js',
                 'resources/css/test.css',
                 'resources/css/components.css',
                 'resources/css/farmaci.css',

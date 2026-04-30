@@ -17,14 +17,17 @@ class PrescriptionController extends Controller
 
         $selectedPatientId = request('paziente') ?? $pazienti->first()?->id;
 
-        // Build a map of existing prescriptions: "day_step" => Prescription
         $prescriptionMap = [];
         if ($selectedPatientId) {
             $existing = Prescription::where('patient_id', $selectedPatientId)
                 ->with('medicine')
                 ->get();
             foreach ($existing as $p) {
-                $prescriptionMap[$p->day . '_' . $p->step] = $p;
+                $key = $p->day . '_' . $p->step;
+                if (!isset($prescriptionMap[$key])) {
+                    $prescriptionMap[$key] = collect();
+                }
+                $prescriptionMap[$key]->push($p);
             }
         }
 
@@ -49,8 +52,9 @@ class PrescriptionController extends Controller
 
         $schedule = $request->input('schedule', []);
         foreach ($schedule as $day => $steps) {
-            foreach ($steps as $step => $medicineId) {
-                if ($medicineId) {
+            foreach ($steps as $step => $medicineIds) {
+                $ids = array_filter((array) $medicineIds);
+                foreach ($ids as $medicineId) {
                     $hour          = 8 + (($step - 1) * 2);
                     $scheduledTime = sprintf('%02d:00:00', $hour);
 

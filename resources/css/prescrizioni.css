@@ -10,8 +10,8 @@
     text-align: center;
 }
 .presc-table thead th.time-col { text-align: left; width: 72px; }
-.presc-table tbody td          { padding: 4px 3px; vertical-align: middle; }
-.presc-table tbody td.time-cell { padding: 4px 6px; }
+.presc-table tbody td          { padding: 4px 3px; vertical-align: top; }
+.presc-table tbody td.time-cell { padding: 4px 6px; vertical-align: middle; }
 
 .time-badge {
     display: inline-block;
@@ -44,11 +44,57 @@
     background-color: var(--background-tiles);
     padding-right: 22px;
     transition: border-color 0.2s ease, background-color 0.2s ease;
+    min-width: 150px;
 }
 .med-select:focus    { border-color: var(--background-button); outline: none; }
 .med-select.has-value {
     border-color: var(--background-button);
     background-color: rgba(220,155,155,0.08);
+}
+
+.med-select-multi {
+    background-image: none;
+    padding-right: 6px;
+    min-height: 34px;
+    max-height: 110px;
+    overflow-y: auto;
+    size: auto;
+}
+
+.med-select-multi option {
+    padding: 4px 6px;
+    border-radius: 6px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    font-family: "Fredoka", serif;
+    font-size: 0.78rem;
+    transition: background 0.15s ease;
+}
+
+.med-select-multi option:checked {
+    background: var(--background-button);
+    color: #000;
+    font-weight: bold;
+}
+
+.med-select-multi option:hover {
+    background: var(--background-color1);
+}
+
+.med-select-multi.has-value {
+    border-color: var(--background-button);
+    background-color: rgba(220,155,155,0.06);
+}
+
+kbd {
+    display: inline-block;
+    background: var(--background-color1);
+    border: 1px solid rgba(0,0,0,0.18);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.78rem;
+    font-family: monospace;
+    line-height: 1.4;
 }
 
 .patient-select-wrap {

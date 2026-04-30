@@ -40,7 +40,7 @@
                 <form method="POST" action="{{ route('prescriptions.clear', $selectedPatientId) }}"
                       onsubmit="return confirm('Cancellare tutte le prescrizioni di questo paziente?')">
                     @csrf
-                    <button type="submit" class="danger-btn">🗑 Cancella tutto</button>
+                    <button type="submit" class="danger-btn">Cancella tutto</button>
                 </form>
             @endif
         </div>
@@ -60,7 +60,9 @@
                     <div class="row between vertical_center presc-header">
                         <div class="column gap_10">
                             <h2 class="font_bold section-title">Piano Settimanale</h2>
-                            <span class="presc-hint">Seleziona un farmaco per ogni slot — lascia vuoto per nessuna somministrazione</span>
+                            <span class="presc-hint">
+                                Scegli il Piano Settimanale per il <kbd>Paziente</kbd>
+                            </span>
                         </div>
                         <button type="submit" class="btn primary presc-save-btn">Salva Piano</button>
                     </div>
@@ -68,42 +70,54 @@
                     <div class="presc-table-wrap">
                         <table class="presc-table">
                             <thead>
-                                <tr>
-                                    <th class="time-col">Orario</th>
-                                    @foreach($days as $dayName)
-                                        <th>{{ $dayName }}</th>
-                                    @endforeach
-                                </tr>
+                            <tr>
+                                <th class="time-col">Orario</th>
+                                @foreach($days as $dayName)
+                                    <th>{{ $dayName }}</th>
+                                @endforeach
+                            </tr>
                             </thead>
                             <tbody>
-                                @foreach($times as $stepIndex => $time)
-                                    @php $stepNum = $stepIndex + 1; @endphp
-                                    <tr>
-                                        <td class="time-cell">
-                                            <span class="time-badge font_bold">{{ $time }}</span>
+                            @foreach($times as $stepIndex => $time)
+                                @php $stepNum = $stepIndex + 1; @endphp
+                                <tr>
+                                    <td class="time-cell">
+                                        <span class="time-badge font_bold">{{ $time }}</span>
+                                    </td>
+                                    @for($day = 1; $day <= 7; $day++)
+                                        @php
+                                            $slotItems = $prescriptionMap[$day . '_' . $stepNum] ?? null;
+                                            $hasValue  = $slotItems && $slotItems->count() > 0;
+                                            $selected  = $slotItems ? $slotItems->pluck('medicine_id')->toArray() : [];
+                                        @endphp
+                                        <td>
+                                            <div class="med-select med-select-multi {{ $hasValue ? 'has-value' : '' }}">
+                                                @foreach($medicines as $med)
+                                                    @php
+                                                        $isSelected = in_array($med->id, $selected);
+                                                        $uniqueId = "med_{$day}_{$stepNum}_{$med->id}";
+                                                    @endphp
+
+                                                    <label for="{{ $uniqueId }}" class="pill-item row vertical_center gap_10 {{ $isSelected ? 'is-selected' : '' }}">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="schedule[{{ $day }}][{{ $stepNum }}][]"
+                                                            value="{{ $med->id }}"
+                                                            id="{{ $uniqueId }}"
+                                                            class="hidden-checkbox"
+                                                            {{ $isSelected ? 'checked' : '' }}
+                                                            onchange="
+                                                            this.closest('.pill-item').classList.toggle('is-selected', this.checked);
+                                                            this.closest('.med-select-multi').classList.toggle('has-value', this.closest('.med-select-multi').querySelectorAll('input:checked').length > 0);">
+                                                        <span class="pill-dot"></span>
+                                                        <span class="med-name">{{ $med->name }}</span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
                                         </td>
-                                        @for($day = 1; $day <= 7; $day++)
-                                            @php
-                                                $key      = $day . '_' . $stepNum;
-                                                $existing = $prescriptionMap[$key] ?? null;
-                                                $hasValue = (bool) $existing;
-                                            @endphp
-                                            <td>
-                                                <select name="schedule[{{ $day }}][{{ $stepNum }}]"
-                                                        class="med-select {{ $hasValue ? 'has-value' : '' }}"
-                                                        onchange="this.classList.toggle('has-value', !!this.value)">
-                                                    <option value="">— vuoto —</option>
-                                                    @foreach($medicines as $med)
-                                                        <option value="{{ $med->id }}"
-                                                            {{ $existing && $existing->medicine_id == $med->id ? 'selected' : '' }}>
-                                                            {{ $med->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                        @endfor
-                                    </tr>
-                                @endforeach
+                                    @endfor
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -111,9 +125,10 @@
             </form>
 
             @php
-                $giorni     = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-                $byDay      = collect($prescriptionMap)->groupBy(fn($p) => $p->day)->sortKeys();
-                $totalCount = count($prescriptionMap);
+                $giorni          = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+                $allPresc        = collect($prescriptionMap)->flatten(1);
+                $byDay           = $allPresc->groupBy('day')->sortKeys();
+                $totalCount      = $allPresc->count();
             @endphp
 
             @if($totalCount > 0)
@@ -147,3 +162,5 @@
     @endif
 
 </div>
+
+@vite(['resources/js/pages/prescrizioni.js'])
