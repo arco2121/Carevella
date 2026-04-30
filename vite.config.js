@@ -12,6 +12,11 @@ export default defineConfig({
                 'resources/js/pages/dashboard_paziente.js',
                 'resources/js/pages/farmaci.js',
                 'resources/css/test.css',
+                'resources/css/components.css',
+                'resources/css/farmaci.css',
+                'resources/css/prescrizioni.css',
+                'resources/css/index.css',
+                'resources/css/test.css',
                 'resources/js/app.js',
                 "resources/js/bridge.js",
                 "resources/js/components/clearDom.js"
