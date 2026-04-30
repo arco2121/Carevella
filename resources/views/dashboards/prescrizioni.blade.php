@@ -162,5 +162,3 @@
     @endif
 
 </div>
-
-@vite(['resources/js/pages/prescrizioni.js'])

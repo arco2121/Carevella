@@ -1,3 +1,23 @@
+@php
+    use Carbon\Carbon;
+
+    $prescrizioni  = auth()->user()->prescrizioni()->with('medicine')->get()->groupBy('day');
+    $giorni        = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+    $giorniLungo   = ['', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
+
+    // Calcola la settimana corrente (Lun-Dom)
+    $oggi          = Carbon::now();
+    $lunedi        = $oggi->copy()->startOfWeek(Carbon::MONDAY);
+
+    // Prepara i 7 giorni con data ISO (per il JS)
+    $weekDays = [];
+    for ($i = 0; $i < 7; $i++) {
+        $weekDays[$i + 1] = $lunedi->copy()->addDays($i)->toDateString(); // key = day (1-7)
+    }
+
+    $todayDayNum = (int) $oggi->copy()->startOfWeek(Carbon::MONDAY)->diffInDays($oggi) + 1; // 1-7
+@endphp
+
 <div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_40 full_width">
 
     <div class="dash-header row between vertical_center margin_vertical_20">
@@ -51,16 +71,73 @@
         </div>
     </div>
 
-    @php
-        $prescrizioni = auth()->user()->prescrizioni()->with('medicine')->get()->groupBy('day');
-        $giorni = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-    @endphp
+    <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
+        <div class="row between vertical_center">
+            <h2 class="font_bold section-title">Tracciamento Settimanale</h2>
+            <span class="stat-chip">Settimana del {{ $lunedi->format('d/m') }} — {{ $lunedi->copy()->addDays(6)->format('d/m') }}
+            </span>
+        </div>
+
+        @if($prescrizioni->isEmpty())
+            <div class="empty-state column vertical_center text_center gap_10">
+                <span class="empty-icon">📋</span>
+                <p>Nessuna prescrizione attiva.<br>Il tuo medico non ha ancora assegnato farmaci.</p>
+            </div>
+        @else
+            <div class="week-tracking-grid" id="week-tracking-container">
+                @for($dayNum = 1; $dayNum <= 7; $dayNum++)
+                    @php
+                        $dateStr   = $weekDays[$dayNum];
+                        $isToday   = ($dayNum === $todayDayNum);
+                        $dayItems  = $prescrizioni->get($dayNum, collect());
+                    @endphp
+
+                    <div class="week-day-card {{ $isToday ? 'week-day-today' : '' }}">
+                        <div class="week-day-header">
+                            <span class="week-day-name">
+                                {{ $giorniLungo[$dayNum] }}
+                                @if($isToday)
+                                    <span class="role-badge" style="font-size:0.65rem; padding:2px 8px; margin-left:6px;">Oggi</span>
+                                @endif
+                            </span>
+                            <span class="week-day-date">{{ \Carbon\Carbon::parse($dateStr)->format('d/m') }}</span>
+                        </div>
+
+                        <div class="week-pills-list">
+                            @if($dayItems->isEmpty())
+                                <div class="week-empty-day">Nessun farmaco</div>
+                            @else
+                                @foreach($dayItems->sortBy('step') as $item)
+                                    <div class="week-pill-row"
+                                         data-prescription-id="{{ $item->id }}"
+                                         data-date="{{ $dateStr }}"
+                                         title="Clicca per segnare come preso/non preso">
+                                        <div class="week-pill-check"></div>
+                                        <div class="week-pill-info">
+                                            <div class="week-pill-name">{{ $item->medicine->name }}</div>
+                                            <div class="week-pill-meta">
+                                                <span>{{ $item->amount }} {{ $item->amount == 1 ? 'compressa' : 'compresse' }}</span>
+                                                <span class="week-pill-taken-at"></span>
+                                            </div>
+                                        </div>
+                                        <span class="week-pill-time-badge">{{ substr($item->scheduled_time, 0, 5) }}</span>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                @endfor
+            </div>
+
+            <p class="presc-hint">💡 Tocca una pillola per segnare se l'hai presa. I dati vengono inviati anche al dispenser</p>
+        @endif
+    </div>
 
     <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
         <h2 class="font_bold section-title">Piano Terapeutico</h2>
         @if($prescrizioni->isEmpty())
             <div class="empty-state column vertical_center text_center gap_10">
-                <p>Nessuna prescrizione attiva.<br>Il tuo medico non ha ancora assegnato farmaci.</p>
+                <p>Nessuna prescrizione attiva.</p>
             </div>
         @else
             <div class="prescription-grid">
@@ -71,6 +148,9 @@
                             <div class="pill-item row vertical_center gap_10">
                                 <span class="pill-dot"></span>
                                 <span>{{ $item->medicine->name }}</span>
+                                @if($item->amount != 1)
+                                    <span class="pill-time">×{{ $item->amount }}</span>
+                                @endif
                                 <span class="pill-time">{{ substr($item->scheduled_time, 0, 5) }}</span>
                             </div>
                         @endforeach
@@ -89,4 +169,4 @@
 
 </div>
 
-@vite(['resources/js/pages/dashboard_paziente.js'])
+@vite(['resources/js/pages/dashboard_paziente_tracking.js'])
