@@ -159,7 +159,6 @@ async function loadExistingLogs() {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
-                // GET non richiede CSRF ma lo inviamo per coerenza
                 'X-CSRF-TOKEN': getCsrfToken(),
             },
         });
@@ -174,7 +173,10 @@ async function loadExistingLogs() {
         // Costruisce mappa: "prescriptionId_YYYY-MM-DD" → log
         const logMap = {};
         logs.forEach(log => {
-            const key = `${log.prescription_id}_${log.date}`;
+            // FIX: Taglia l'eventuale orario (es. "T12:00:00" o " 12:00:00") lasciando solo YYYY-MM-DD
+            const logDateStr = (log.date || '').split('T')[0].split(' ')[0];
+            const key = `${log.prescription_id}_${logDateStr}`;
+            
             logMap[key] = log;
         });
 
@@ -187,7 +189,6 @@ async function loadExistingLogs() {
             if (logMap[key] !== undefined) {
                 applyTakenState(row, logMap[key].taken, logMap[key].taken_at);
             }
-            // Se non c'è log, la riga rimane nello stato "non preso" di default
         });
 
     } catch (e) {
