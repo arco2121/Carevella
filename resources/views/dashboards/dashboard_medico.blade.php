@@ -25,7 +25,7 @@
         </div>
     @else
         <div class="section-block box row between vertical_center gap_20 padding_orizontal_20 padding_vertical_15">
-            <span class="font_bold paziente-select-label">Paziente selezionato:</span>
+            <span class="font_bold paziente-select-label">Paziente:</span>
             <select id="paziente-select" class="paziente-select font_normal">
                 @foreach($pazienti as $p)
                     <option value="{{ $p->id }}" data-username="{{ $p->username }}">

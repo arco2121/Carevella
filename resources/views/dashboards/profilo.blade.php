@@ -25,7 +25,7 @@
         <div class="section-block box column gap_15 padding_orizontal_20 padding_vertical_20">
             <h2 class="font_bold section-title">Il mio Medico</h2>
             @if($user->medico)
-                <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10 full_width">
+                <div class="box mobile_row row vertical_center mobile_not_center gap_15 padding_orizontal_15 padding_vertical_10 full_width">
                     <div class="avatar-circle avatar-md">
                         {{ strtoupper(substr($user->medico->username, 0, 1)) }}
                     </div>
@@ -33,7 +33,7 @@
                         <span class="font_bold">{{ $user->medico->username }}</span>
                         <span class="profilo-email">{{ $user->medico->email }}</span>
                     </div>
-                    <span class="role-badge medico profilo-badge-right">medico</span>
+                    <span class="role-badge medico profilo-badge-right">Medico</span>
                 </div>
             @else
                 <div class="row gap_10 vertical_center profilo-no-medico">
@@ -92,7 +92,7 @@
             @else
                 <div class="column gap_10">
                     @foreach($pazienti_list as $paz)
-                        <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10">
+                        <div class="box row mobile_row vertical_center gap_15 padding_orizontal_15 padding_vertical_10">
                             <div class="avatar-circle avatar-sm">{{ strtoupper(substr($paz->username, 0, 1)) }}</div>
                             <div class="column gap_10">
                                 <span class="font_bold">{{ $paz->username }}</span>
@@ -102,7 +102,7 @@
                                     <span class="farm-subtitle">{{ $famCount }} familiare{{ $famCount > 1 ? 'i' : '' }} collegat{{ $famCount > 1 ? 'i' : 'o' }}</span>
                                 @endif
                             </div>
-                            <span class="role-badge paziente profilo-badge-right">paziente</span>
+                            <span class="role-badge paziente profilo-badge-right">Paziente</span>
                             <a href="{{ route('family.index', $paz) }}" class="btn secondary">Familiari</a>
                         </div>
                     @endforeach
@@ -131,7 +131,7 @@
             @else
                 <div class="column gap_10">
                     @foreach($pazientiSeguiti as $paz)
-                        <div class="box row vertical_center gap_15 padding_orizontal_15 padding_vertical_10">
+                        <div class="box mobile_row mobile_not_center row vertical_center gap_15 padding_orizontal_15 padding_vertical_10">
                             <div class="avatar-circle avatar-md">{{ strtoupper(substr($paz->username, 0, 1)) }}</div>
                             <div class="column gap_10">
                                 <span class="font_bold">{{ $paz->username }}</span>
@@ -140,7 +140,7 @@
                                     <span class="farm-subtitle">Medico: {{ $paz->medico->username }}</span>
                                 @endif
                             </div>
-                            <span class="role-badge paziente profilo-badge-right">paziente</span>
+                            <span class="role-badge paziente profilo-badge-right">Paziente</span>
                         </div>
                     @endforeach
                 </div>

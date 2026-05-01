@@ -432,7 +432,7 @@ button:active { scale: 0.9; }
 }
 
 /* Auth */
-.login_form { width: 60vw; }
+.login_form { width: 70vw; }
 
 .nobounce:active {
     scale: 1;
@@ -440,4 +440,10 @@ button:active { scale: 0.9; }
 
 .contents {
     display: contents;
+}
+
+@media (orientation: portrait) {
+    .mobile_not_center {
+        align-items: normal;
+    }
 }
