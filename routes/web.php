@@ -14,7 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn() => renderPage("index", ['title' => 'IOT Project']));
+Route::get('/', fn() => renderPage("index"));
 Route::get('/test', fn() => renderPage("test", ['title' => 'Test MQTT']));
 
 Route::post('/sendMqtt', [MqttController::class, 'send']);
@@ -34,7 +34,6 @@ Route::middleware('auth')->group(function () {
         } elseif ($user->role === 'medico') {
             $data['pazienti_list'] = $user->pazienti()->where('role', 'paziente')->get();
         } elseif ($user->role === 'famiglia') {
-            // Usa la relazione many-to-many corretta
             $data['pazientiSeguiti'] = $user->pazientiSeguiti()->with('medico')->get();
         }
 
@@ -45,7 +44,7 @@ Route::middleware('auth')->group(function () {
         $request->validate([
             'doctor_id' => ['required', 'exists:users,id', function ($attr, $value, $fail) {
                 if (User::where('id', $value)->where('role', 'medico')->doesntExist()) {
-                    $fail('L\'utente selezionato non è un medico.');
+                    $fail("L'utente selezionato non è un medico.");
                 }
             }],
         ]);
@@ -70,7 +69,7 @@ Route::middleware('auth')->group(function () {
         $prescrizioni = $paziente->prescrizioni()
             ->with('medicine')
             ->get()
-            ->map(fn ($p) => [
+            ->map(fn($p) => [
                 'day'            => $p->day,
                 'step'           => $p->step,
                 'scheduled_time' => $p->scheduled_time,
@@ -81,9 +80,15 @@ Route::middleware('auth')->group(function () {
         return response()->json($prescrizioni);
     })->middleware(CheckRole::class . ':medico');
 
+    Route::get('/api/paziente/{id}/log-settimanale', [PrescriptionLogController::class, 'weeklyForPatient'])
+        ->middleware(CheckRole::class . ':medico');
+
     Route::middleware(CheckRole::class . ':paziente')->group(function () {
-        Route::get('/dashboard-paziente', fn() => renderPage("dashboards.dashboard_paziente", ['title' => 'Dashboard Paziente']))
-            ->name('dashboard-paziente');
+
+        Route::get('/dashboard-paziente', fn() => renderPage(
+            'dashboards.dashboard_paziente',
+            ['title' => 'Dashboard Paziente']
+        ))->name('dashboard-paziente');
 
         Route::post(
             '/paziente/log/{prescription}/{date}',
@@ -91,13 +96,13 @@ Route::middleware('auth')->group(function () {
         )->name('prescription.log.toggle');
 
         Route::get(
-            '/api/paziente/{id}/log-settimanale',
-            [PrescriptionLogController::class, 'weeklyForPatient']
-        )->middleware(CheckRole::class . ':medico');
-
+            '/api/paziente/me/log-settimanale',
+            [PrescriptionLogController::class, 'weeklyForSelf']
+        )->name('prescription.log.weekly.self');
     });
 
     Route::middleware(CheckRole::class . ':medico')->group(function () {
+
         Route::get('/dashboard-medico', function () {
             $medico        = auth()->user();
             $listaPazienti = $medico->pazienti()->where('role', 'paziente')->get();
@@ -142,8 +147,9 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware(CheckRole::class . ':famiglia')->group(function () {
+
         Route::get('/dashboard-famiglia', function () {
-            $user           = auth()->user();
+            $user            = auth()->user();
             $pazientiSeguiti = $user->pazientiSeguiti()->get();
 
             return renderPage("dashboards.dashboard_famiglia", [
@@ -155,4 +161,4 @@ Route::middleware('auth')->group(function () {
 
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

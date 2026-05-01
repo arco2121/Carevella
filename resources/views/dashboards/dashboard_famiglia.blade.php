@@ -153,4 +153,4 @@
 
 </div>
 
-@vite(['resources/js/pages/dashboard_paziente.js'])
+@vite(['resources/js/pages/dashboard_famiglia.js'])

@@ -24,10 +24,8 @@
 
         <div class="section-block box padding_orizontal_20 padding_vertical_15 row vertical_center gap_20 presc-patient-row">
             <span class="font_bold presc-patient-label">Paziente:</span>
-            <form method="GET" action="{{ route('prescriptions.index') }}" id="patient-form"
-                  class="row vertical_center gap_15 presc-patient-form">
-                <select name="paziente" class="patient-select-wrap"
-                        onchange="document.getElementById('patient-form').submit()">
+            <form method="GET" action="{{ route('prescriptions.index') }}" id="patient-form" class="row vertical_center gap_15 presc-patient-form">
+                <select name="paziente" class="patient-select-wrap" id="patient-select">
                     @foreach($users as $u)
                         <option value="{{ $u->id }}" {{ $selectedPatientId == $u->id ? 'selected' : '' }}>
                             {{ $u->username }} — {{ $u->email }}
@@ -37,8 +35,7 @@
             </form>
 
             @if($selectedPatientId)
-                <form method="POST" action="{{ route('prescriptions.clear', $selectedPatientId) }}"
-                      onsubmit="return confirm('Cancellare tutte le prescrizioni di questo paziente?')">
+                <form method="POST" action="{{ route('prescriptions.clear', $selectedPatientId) }}" id="clear-prescriptions-form">
                     @csrf
                     <button type="submit" class="danger-btn">Cancella tutto</button>
                 </form>
@@ -52,7 +49,7 @@
             </div>
         @elseif($selectedPatientId)
 
-            <form method="POST" action="{{ route('prescriptions.store') }}">
+            <form method="POST" action="{{ route('prescriptions.store') }}" id="presc-form">
                 @csrf
                 <input type="hidden" name="patient_id" value="{{ $selectedPatientId }}">
 
@@ -61,7 +58,7 @@
                         <div class="column gap_10">
                             <h2 class="font_bold section-title">Piano Settimanale</h2>
                             <span class="presc-hint">
-                                Scegli il Piano Settimanale per il <kbd>Paziente</kbd>
+                                Seleziona i farmaci e imposta la dose per ogni slot. Puoi aggiungere più farmaci per lo stesso orario.
                             </span>
                         </div>
                         <button type="submit" class="btn primary presc-save-btn">Salva Piano</button>
@@ -87,33 +84,41 @@
                                     @for($day = 1; $day <= 7; $day++)
                                         @php
                                             $slotItems = $prescriptionMap[$day . '_' . $stepNum] ?? null;
-                                            $hasValue  = $slotItems && $slotItems->count() > 0;
-                                            $selected  = $slotItems ? $slotItems->pluck('medicine_id')->toArray() : [];
                                         @endphp
                                         <td>
-                                            <div class="med-select med-select-multi {{ $hasValue ? 'has-value' : '' }}">
-                                                @foreach($medicines as $med)
-                                                    @php
-                                                        $isSelected = in_array($med->id, $selected);
-                                                        $uniqueId = "med_{$day}_{$stepNum}_{$med->id}";
-                                                    @endphp
-
-                                                    <label for="{{ $uniqueId }}" class="pill-item row vertical_center gap_10 {{ $isSelected ? 'is-selected' : '' }}">
-                                                        <input
-                                                            type="checkbox"
-                                                            name="schedule[{{ $day }}][{{ $stepNum }}][]"
-                                                            value="{{ $med->id }}"
-                                                            id="{{ $uniqueId }}"
-                                                            class="hidden-checkbox"
-                                                            {{ $isSelected ? 'checked' : '' }}
-                                                            onchange="
-                                                            this.closest('.pill-item').classList.toggle('is-selected', this.checked);
-                                                            this.closest('.med-select-multi').classList.toggle('has-value', this.closest('.med-select-multi').querySelectorAll('input:checked').length > 0);">
-                                                        <span class="pill-dot"></span>
-                                                        <span class="med-name">{{ $med->name }}</span>
-                                                    </label>
-                                                @endforeach
+                                            <div class="slot-list" id="slot-list-{{ $day }}-{{ $stepNum }}">
+                                                @if($slotItems && $slotItems->count() > 0)
+                                                    @foreach($slotItems as $existing)
+                                                        <div class="med-slot-row">
+                                                            <select name="schedule[{{ $day }}][{{ $stepNum }}][medicines][]" class="med-select has-value">
+                                                                <option value="">—</option>
+                                                                @foreach($medicines as $med)
+                                                                    <option value="{{ $med->id }}" {{ $existing->medicine_id == $med->id ? 'selected' : '' }}>
+                                                                        {{ $med->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            <input type="number" name="schedule[{{ $day }}][{{ $stepNum }}][amounts][]" class="amount-input" value="{{ $existing->amount }}" min="0.5" max="20" step="0.5" title="Dose">
+                                                            <button type="button" class="slot-remove-btn">✕</button>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <div class="med-slot-row">
+                                                        <select name="schedule[{{ $day }}][{{ $stepNum }}][medicines][]" class="med-select">
+                                                            <option value="">—</option>
+                                                            @foreach($medicines as $med)
+                                                                <option value="{{ $med->id }}">{{ $med->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <input type="number" name="schedule[{{ $day }}][{{ $stepNum }}][amounts][]" class="amount-input" value="1" min="0.5" max="20" step="0.5" title="Dose">
+                                                        <button type="button" class="slot-remove-btn">✕</button>
+                                                    </div>
+                                                @endif
                                             </div>
+
+                                            <button type="button" class="add-slot-btn" data-day="{{ $day }}" data-step="{{ $stepNum }}">
+                                                + Farmaco
+                                            </button>
                                         </td>
                                     @endfor
                                 </tr>
@@ -124,11 +129,24 @@
                 </div>
             </form>
 
+            <template id="med-slot-template">
+                <div class="med-slot-row">
+                    <select class="med-select">
+                        <option value="">—</option>
+                        @foreach($medicines as $med)
+                            <option value="{{ $med->id }}">{{ $med->name }}</option>
+                        @endforeach
+                    </select>
+                    <input type="number" class="amount-input" value="1" min="0.5" max="20" step="0.5" title="Dose">
+                    <button type="button" class="slot-remove-btn">✕</button>
+                </div>
+            </template>
+
             @php
-                $giorni          = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-                $allPresc        = collect($prescriptionMap)->flatten(1);
-                $byDay           = $allPresc->groupBy('day')->sortKeys();
-                $totalCount      = $allPresc->count();
+                $giorni     = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+                $allPresc   = collect($prescriptionMap)->flatten(1);
+                $byDay      = $allPresc->groupBy('day')->sortKeys();
+                $totalCount = $allPresc->count();
             @endphp
 
             @if($totalCount > 0)
@@ -145,6 +163,7 @@
                                     <div class="pill-item row vertical_center gap_10">
                                         <span class="pill-dot"></span>
                                         <span>{{ $item->medicine->name }}</span>
+                                        <span class="pill-time">×{{ $item->amount }}</span>
                                         <span class="pill-time">{{ substr($item->scheduled_time, 0, 5) }}</span>
                                     </div>
                                 @endforeach
@@ -162,3 +181,5 @@
     @endif
 
 </div>
+
+@vite(['resources/js/pages/prescrizioni.js'])

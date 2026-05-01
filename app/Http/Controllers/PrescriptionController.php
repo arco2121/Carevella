@@ -23,6 +23,7 @@ class PrescriptionController extends Controller
                 ->with('medicine')
                 ->get();
             foreach ($existing as $p) {
+                // Chiave: giorno_step — valori multipli per stesso slot
                 $key = $p->day . '_' . $p->step;
                 if (!isset($prescriptionMap[$key])) {
                     $prescriptionMap[$key] = collect();
@@ -48,15 +49,30 @@ class PrescriptionController extends Controller
         $patientId = $request->input('patient_id');
         $medico->pazienti()->where('id', $patientId)->firstOrFail();
 
+        // Elimina tutto il piano esistente per questo paziente
         Prescription::where('patient_id', $patientId)->delete();
 
         $schedule = $request->input('schedule', []);
+
         foreach ($schedule as $day => $steps) {
-            foreach ($steps as $step => $medicineIds) {
-                $ids = array_filter((array) $medicineIds);
-                foreach ($ids as $medicineId) {
-                    $hour          = 8 + (($step - 1) * 2);
-                    $scheduledTime = sprintf('%02d:00:00', $hour);
+            foreach ($steps as $step => $slotData) {
+                // Nuovo formato: schedule[day][step][medicines][] e schedule[day][step][amounts][]
+                $medicines = $slotData['medicines'] ?? [];
+                $amounts   = $slotData['amounts']   ?? [];
+
+                $hour          = 8 + (($step - 1) * 2);
+                $scheduledTime = sprintf('%02d:00:00', $hour);
+
+                foreach ($medicines as $index => $medicineId) {
+                    // Salta slot vuoti (nessun farmaco selezionato)
+                    if (empty($medicineId)) {
+                        continue;
+                    }
+
+                    // Recupera la dose corrispondente, default 1
+                    $amount = isset($amounts[$index]) ? (float) $amounts[$index] : 1.0;
+                    // Clamp: minimo 0.5, massimo 20
+                    $amount = max(0.5, min(20.0, $amount));
 
                     Prescription::create([
                         'patient_id'     => $patientId,
@@ -64,7 +80,7 @@ class PrescriptionController extends Controller
                         'day'            => $day,
                         'step'           => $step,
                         'scheduled_time' => $scheduledTime,
-                        'amount'         => 1,
+                        'amount'         => $amount,
                     ]);
                 }
             }

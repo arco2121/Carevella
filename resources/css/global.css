@@ -126,7 +126,7 @@ button:active { scale: 0.9; }
     border: 2px solid transparent;
     font-family: "Fredoka", serif;
 }
-.btn:active { transform: scale(0.96); }
+.btn:active { transform: scale(0.9); }
 
 .btn.primary {
     background: var(--background-button);

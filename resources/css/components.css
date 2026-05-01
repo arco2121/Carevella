@@ -106,8 +106,8 @@ kbd {
 
 .week-tracking-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
 }
 
 .week-day-card {
@@ -115,44 +115,44 @@ kbd {
     border: 2px solid rgba(0,0,0,0.07);
     background: var(--background-tiles);
     overflow: hidden;
-    transition: box-shadow 0.2s ease;
-}
-.week-day-card:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.07);
 }
 
 .week-day-header {
     background: var(--background-color1);
-    padding: 10px 16px;
+    padding: 10px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.week-day-name {
-    font-weight: bold;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.week-day-date {
-    font-size: 0.78rem;
-    opacity: 0.6;
-    font-family: monospace;
+    gap: 8px;
 }
 
 .week-day-today .week-day-header {
     background: var(--background-button);
 }
 
-.week-pills-list {
-    padding: 10px 12px;
+.week-day-name {
+    font-size: 0.9rem;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
 }
 
+.week-day-date {
+    font-size: 0.78rem;
+    opacity: 0.6;
+    font-family: monospace;
+    flex-shrink: 0;
+}
+
+.week-pills-list {
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Singola riga pillola — cliccabile */
 .week-pill-row {
     display: flex;
     align-items: center;
@@ -162,34 +162,40 @@ kbd {
     border: 2px solid rgba(0,0,0,0.07);
     background: var(--background-color2);
     cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
 }
 .week-pill-row:hover {
     border-color: rgba(0,0,0,0.18);
     transform: translateX(2px);
 }
+.week-pill-row:active {
+    transform: scale(0.98);
+}
 .week-pill-row.is-taken {
-    background: rgba(76,175,80,0.12);
+    background: rgba(76,175,80,0.10);
     border-color: rgba(76,175,80,0.4);
 }
 .week-pill-row.is-loading {
-    opacity: 0.5;
+    opacity: 0.6;
     pointer-events: none;
+    cursor: wait;
 }
 
+/* Cerchio di spunta */
 .week-pill-check {
     width: 22px;
     height: 22px;
+    min-width: 22px;
     border-radius: 50%;
     border: 2px solid rgba(0,0,0,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    font-size: 0.8rem;
-    transition: all 0.2s ease;
+    font-size: 0.78rem;
+    font-weight: bold;
     background: var(--background-tiles);
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    color: transparent;
 }
 .week-pill-row.is-taken .week-pill-check {
     background: #4caf50;
@@ -197,64 +203,63 @@ kbd {
     color: #fff;
 }
 
+/* Testo info pillola */
 .week-pill-info {
     flex: 1;
     min-width: 0;
 }
 .week-pill-name {
-    font-size: 0.88rem;
+    font-size: 0.87rem;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .week-pill-meta {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     opacity: 0.55;
-    font-family: monospace;
     display: flex;
-    gap: 8px;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 1px;
+}
+.week-pill-taken-at {
+    font-family: monospace;
 }
 
+/* Badge orario */
 .week-pill-time-badge {
     font-family: monospace;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     background: var(--background-color1);
     padding: 2px 7px;
     border-radius: 6px;
     flex-shrink: 0;
 }
 
+/* Giorno senza farmaci */
 .week-empty-day {
-    padding: 16px;
+    padding: 14px;
     text-align: center;
     font-size: 0.82rem;
-    opacity: 0.4;
+    opacity: 0.38;
 }
 
-.week-progress-bar {
-    height: 4px;
-    background: rgba(0,0,0,0.07);
-    margin: 0 12px 10px;
-    border-radius: 999px;
-    overflow: hidden;
+/* ── Spinner per il toggle ── */
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
-.week-progress-fill {
-    height: 100%;
-    background: #4caf50;
-    border-radius: 999px;
-    transition: width 0.4s ease;
-}
-
-/* Taken-at tooltip */
-.week-pill-taken-at {
-    font-size: 0.7rem;
-    opacity: 0.5;
-    font-family: monospace;
+.spinner {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(0,0,0,0.15);
+    border-top-color: #4caf50;
+    border-radius: 50%;
+    animation: spin 0.55s linear infinite;
 }
 
-/* ── Amount input nella griglia prescrizioni ── */
-
+/* ── Amount input nelle prescrizioni ── */
 .amount-input {
     width: 52px;
     background: var(--background-tiles);
@@ -272,18 +277,11 @@ kbd {
     outline: none;
 }
 
-.amount-col-header {
-    font-size: 0.72rem;
-    opacity: 0.5;
-    text-align: center;
-    padding-top: 4px;
-}
-
-/* Slot farmaco con dose inline */
+/* ── Slot farmaco nella griglia prescrizioni ── */
 .med-slot-row {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     margin-bottom: 4px;
 }
 
@@ -292,12 +290,14 @@ kbd {
     border: none;
     color: #c0392b;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     padding: 2px 5px;
     border-radius: 5px;
     aspect-ratio: unset;
     min-width: unset;
+    font-weight: bolder;
     width: auto;
+    line-height: 3;
 }
 .slot-remove-btn:hover {
     background: rgba(220,53,69,0.1);
@@ -307,40 +307,13 @@ kbd {
 }
 
 .add-slot-btn {
-    font-size: 0.75rem;
-    padding: 4px 10px;
+    font-size: 0.73rem;
+    padding: 3px 9px;
     border-radius: 7px;
     aspect-ratio: unset;
     min-width: unset;
     width: fit-content;
     background: var(--background-color1);
-    margin-top: 4px;
-}
-
-/* Riepilogo settimanale nel tab medico */
-.compliance-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--background-color2);
-    border-radius: 999px;
-    padding: 4px 12px;
-    font-size: 0.8rem;
-    font-weight: bold;
-}
-.compliance-badge.good  { background: rgba(76,175,80,0.15);  color: #2e7d32; }
-.compliance-badge.mid   { background: rgba(255,152,0,0.15);  color: #e65100; }
-.compliance-badge.bad   { background: rgba(244,67,54,0.15);  color: #b71c1c; }
-
-/* ── Loader spinner per toggle ── */
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-.spinner {
-    width: 14px;
-    height: 14px;
-    border: 2px solid rgba(0,0,0,0.15);
-    border-top-color: #4caf50;
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
+    margin-top: 3px;
+    display: block;
 }
