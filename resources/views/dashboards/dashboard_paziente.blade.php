@@ -1,11 +1,3 @@
-{{--
-    dashboard_paziente.blade.php
-    - Sensori real-time via MQTT/WebSocket
-    - Tracciamento assunzioni settimanale (toggle preso/non preso)
-    - Piano terapeutico riepilogativo
-    - Stream live
---}}
-
 @php
     use Carbon\Carbon;
 
@@ -16,22 +8,18 @@
     $oggi    = Carbon::now();
     $lunedi  = $oggi->copy()->startOfWeek(Carbon::MONDAY);
 
-    // Mappa day-number (1-7) => data ISO della settimana corrente
     $weekDays = [];
     for ($i = 0; $i < 7; $i++) {
         $weekDays[$i + 1] = $lunedi->copy()->addDays($i)->format('Y-m-d');
     }
 
-    // Giorno corrente come numero 1-7 (1=lun, 7=dom)
     $todayDayNum = (int) $lunedi->diffInDays($oggi) + 1;
 @endphp
 
-{{-- CSRF meta tag — necessario per le fetch() JS --}}
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_40 full_width">
 
-    {{-- Header --}}
     <div class="dash-header row between vertical_center margin_vertical_20">
         <div class="column gap_10">
             <h1 class="font_bold dash-title">Buongiorno, {{ auth()->user()->username }}</h1>
@@ -43,7 +31,6 @@
         </div>
     </div>
 
-    {{-- Sensori --}}
     <div class="sensor-grid">
         <div class="sensor-card box" id="card-temp">
             <div class="sensor-top row between vertical_center">
@@ -84,13 +71,10 @@
         </div>
     </div>
 
-    {{-- Tracciamento Settimanale --}}
     <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
         <div class="row between vertical_center">
             <h2 class="font_bold section-title">Tracciamento Settimanale</h2>
-            <span class="stat-chip">
-                📅 {{ $lunedi->format('d/m') }} — {{ $lunedi->copy()->addDays(6)->format('d/m') }}
-            </span>
+            <span class="stat-chip">{{ $lunedi->format('d/m') }} — {{ $lunedi->copy()->addDays(6)->format('d/m') }}</span>
         </div>
 
         @if($prescrizioni->isEmpty())
@@ -112,7 +96,7 @@
                             <span class="week-day-name font_bold">
                                 {{ $giorniLungo[$dayNum] }}
                                 @if($isToday)
-                                    &nbsp;<span class="role-badge paziente" style="font-size:0.65rem;padding:2px 8px;">Oggi</span>
+                                    &nbsp;<span class="role-badge paziente">Oggi</span>
                                 @endif
                             </span>
                             <span class="week-day-date">{{ Carbon::parse($dateStr)->format('d/m') }}</span>
@@ -148,7 +132,6 @@
         @endif
     </div>
 
-    {{-- Piano Terapeutico riepilogativo --}}
     <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
         <h2 class="font_bold section-title">Piano Terapeutico</h2>
         @if($prescrizioni->isEmpty())
@@ -176,7 +159,6 @@
         @endif
     </div>
 
-    {{-- Stream Live --}}
     <div class="section-block box column gap_15 padding_orizontal_20 padding_vertical_20">
         <h2 class="font_bold section-title">Stream in tempo reale</h2>
         <div id="live-log" class="live-log column gap_10">

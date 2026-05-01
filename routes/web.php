@@ -78,10 +78,10 @@ Route::middleware('auth')->group(function () {
             ]);
 
         return response()->json($prescrizioni);
-    })->middleware(CheckRole::class . ':medico');
+    })->middleware(CheckRole::class . ':medico')->whereNumber('id');
 
     Route::get('/api/paziente/{id}/log-settimanale', [PrescriptionLogController::class, 'weeklyForPatient'])
-        ->middleware(CheckRole::class . ':medico');
+        ->middleware(CheckRole::class . ':medico')->whereNumber("id");
 
     Route::middleware(CheckRole::class . ':paziente')->group(function () {
 

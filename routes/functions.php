@@ -7,7 +7,7 @@ function renderPage($page, $parametri = [
     return view("layouts.app", [
         "page" => $page,
         'version' => env('VERSION', '1.0.0'),
-        'title' => $parametri["title"],
+        'title' => $parametri["title"] ?? env("APP_NAME", "IOT Project"),
         'params' => $parametri
     ]);
 };

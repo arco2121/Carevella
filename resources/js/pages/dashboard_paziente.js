@@ -170,13 +170,12 @@ async function loadExistingLogs() {
 
         const logs = await res.json();
 
-        // Costruisce mappa: "prescriptionId_YYYY-MM-DD" → log
         const logMap = {};
         logs.forEach(log => {
             // FIX: Taglia l'eventuale orario (es. "T12:00:00" o " 12:00:00") lasciando solo YYYY-MM-DD
             const logDateStr = (log.date || '').split('T')[0].split(' ')[0];
             const key = `${log.prescription_id}_${logDateStr}`;
-            
+
             logMap[key] = log;
         });
 
@@ -256,7 +255,7 @@ async function handlePillToggle(row) {
 
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const container = el('week-tracking-container');
     if (!container) return;
 
@@ -267,5 +266,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Carica i log salvati in DB per questa settimana
-    loadExistingLogs();
+    await loadExistingLogs();
 });
