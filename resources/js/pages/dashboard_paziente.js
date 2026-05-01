@@ -121,15 +121,15 @@ echo.channel('esp32').listen('MqttMessageReceived', ({ topic, message }) => {
 /**
  * Applica lo stato visivo "preso / non preso" a una riga.
  * @param {HTMLElement} row
- * @param {boolean}     taken
+ * @param {boolean|string|number} taken
  * @param {string|null} takenAt  - ISO 8601 string o null
  */
 function applyTakenState(row, taken, takenAt) {
     const check  = row.querySelector('.week-pill-check');
     const metaEl = row.querySelector('.week-pill-taken-at');
 
-    // Forza boolean — il server manda true/false ma JSON.parse potrebbe darci 0/1
-    const isTaken = taken === true || taken === 1;
+    // FIX: Gestisce valori di ritorno dal JSON/DB sia come stringa che come numero/booleano
+    const isTaken = (taken === true || taken === 1 || taken === '1' || taken === 'true');
 
     row.classList.toggle('is-taken', isTaken);
 
