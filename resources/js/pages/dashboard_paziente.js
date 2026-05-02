@@ -11,8 +11,6 @@
 
 import { echo } from "../echo.js";
 
-console.log(import.meta.env);
-
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 const el  = (id) => document.getElementById(id);

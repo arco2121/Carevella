@@ -1,5 +1,5 @@
 import Echo from 'laravel-echo';
-
+console.log(import.meta.env);
 import Pusher from 'pusher-js';
 export const pusher = Pusher;
 
@@ -12,5 +12,3 @@ export const echo = new Echo({
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
 });
-
-console.log(import.meta.env);
