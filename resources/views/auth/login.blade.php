@@ -36,11 +36,11 @@
                 <label for="remember_me">Ricordami</label>
             </div>
 
-            <div class="column gap_20 full_width vertical_center">
-                <button type="submit" class="btn primary full-width">Entra</button>
+            <div class="column gap_20 vertical_center full-width">
+                <button type="submit" class="btn primary">Entra</button>
 
                 @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" style="font-size: 0.8rem; text-align: center;">
+                    <a class="text_center" href="{{ route('password.request') }}">
                         Password dimenticata?
                     </a>
                 @endif

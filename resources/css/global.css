@@ -66,6 +66,7 @@ body {
 .orizontal_end { justify-content: flex-end; }
 .end      { align-items: flex-end; }
 .text_center { text-align: center; }
+.text_start { text-align: start; }
 .text_end { text-align: end; }
 
 .gap_5  { gap: 5px; }

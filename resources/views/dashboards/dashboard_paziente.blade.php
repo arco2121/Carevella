@@ -80,7 +80,7 @@
         @if($prescrizioni->isEmpty())
             <div class="empty-state column vertical_center text_center gap_10">
                 <span class="empty-icon">📋</span>
-                <p>Nessuna prescrizione attiva.<br>Il tuo medico non ha ancora assegnato farmaci.</p>
+                <p class="presc-none">Nessuna prescrizione attiva.<br>Il tuo medico non ha ancora assegnato farmaci.</p>
             </div>
         @else
             <div class="week-tracking-grid" id="week-tracking-container">
@@ -136,8 +136,8 @@
     <div class="section-block box column gap_20 padding_orizontal_20 padding_vertical_20">
         <h2 class="font_bold section-title">Piano Terapeutico</h2>
         @if($prescrizioni->isEmpty())
-            <div class="empty-state column vertical_center text_center gap_10">
-                <p>Nessuna prescrizione attiva.</p>
+            <div class="empty-state column vertical_center gap_10">
+                <p class="presc-none">Nessuna prescrizione attiva.</p>
             </div>
         @else
             <div class="prescription-grid">

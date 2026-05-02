@@ -8,6 +8,7 @@ function renderPage($page, $parametri = [
         "page" => $page,
         'version' => env('VERSION', '1.0.0'),
         'title' => $parametri["title"] ?? env("APP_NAME", "IOT Project"),
+        'name' => env("APP_NAME", "IOT Project"),
         'params' => $parametri
     ]);
 };

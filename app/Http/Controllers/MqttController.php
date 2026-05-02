@@ -11,7 +11,7 @@ class MqttController extends Controller
     {
         $message = $request->input('message');
 
-        $topic = 'esp32/comandi';
+        $topic = $request->input('topic') ?? "esp32/comandi";
         $message = [
             'text' => $message,
             'timestamp' => now()
@@ -21,7 +21,6 @@ class MqttController extends Controller
 
         $mqtt->publish($topic, $message['text'], 0);
 
-        // eventualmente broadcast/evento
-        return response()->json(['ok' => true]);
+        return response()->json(['ok' => true, 'topic' => $topic]);
     }
 }
