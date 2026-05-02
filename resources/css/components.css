@@ -2,7 +2,7 @@
 .dash-title  { font-size: 2rem; margin: 0; }
 .dash-status { flex-wrap: wrap; }
 
-.status-label { font-size: 0.9rem; opacity: 0.7; }
+.status-label { font-size: 0.9rem; opacity: var(--opacity-label); }
 
 .paziente-select {
     cursor: pointer;
@@ -17,7 +17,7 @@
 .paziente-select option   { background: var(--background-tiles); }
 .paziente-select-label    { font-size: 1.1rem; }
 
-.device-mac          { font-size: 0.85rem; opacity: 0.6; font-family: monospace; }
+.device-mac          { font-size: 0.85rem; opacity: var(--opacity-muted); font-family: monospace; }
 .device-status-row   { margin-top: 8px; }
 .device-status-text  { font-size: 0.85rem; }
 
@@ -25,15 +25,12 @@
 
 .presc-header { flex-wrap: wrap; gap: 10px; }
 
-.placeholder-text { opacity: 0.4; font-size: 0.9rem; }
-
-.empty-desc { opacity: 0.6; max-width: 400px; margin: 0 auto; }
+.placeholder-text { opacity: var(--opacity-placeholder); font-size: 0.9rem; }
 
 .btn-sm { font-size: 0.85rem; padding: 8px 15px; }
 
-/* Profilo */
 .profilo-username      { font-size: 1.5rem; }
-.profilo-email         { opacity: 0.6; font-size: 0.85rem; }
+.profilo-email         { opacity: var(--opacity-muted); font-size: 0.85rem; }
 .profilo-error         { color: #dc3545; font-size: 0.85rem; }
 .profilo-no-medico     { opacity: 0.5; padding: 10px 0; }
 .profilo-badge-right   { margin-left: auto; }
@@ -48,30 +45,26 @@
     max-width: 450px;
 }
 
-/* Farmaci */
-.farm-subtitle      { opacity: 0.6; font-size: 0.9rem; }
+.farm-subtitle      { opacity: var(--opacity-muted); font-size: 0.9rem; }
 .farm-section-title { margin: 0; font-size: 1.2rem; }
 .farm-list-title    { margin-bottom: 16px; }
 .farm-stats         { flex-wrap: wrap; }
 .farm-nav-btn       { text-decoration: none; aspect-ratio: unset; padding: 10px 22px; }
 
-/* Prescrizioni */
 .presc-page-header  { flex-wrap: wrap; gap: 15px; }
 .presc-nav          { flex-wrap: wrap; }
 .presc-nav-btn      { text-decoration: none; aspect-ratio: unset; padding: 10px 20px; }
 .presc-patient-row  { flex-wrap: wrap; }
 .presc-patient-label { font-size: 1rem; white-space: nowrap; opacity: 0.8; }
 .presc-patient-form { flex:1; min-width: 200px; }
-.presc-hint         { font-size: 0.85rem; opacity: 0.55; }
+.presc-hint         { font-size: 0.85rem; opacity: var(--opacity-hint); }
 .presc-warning-link { font-weight: bold; color: inherit; }
-.presc-empty-note   { opacity: 0.55; }
+.presc-empty-note   { opacity: var(--opacity-hint); }
 .presc-table-wrap   { overflow-x: auto; width: 100%; }
 
-/* Paziente (famiglia dashboard) */
 .paziente-name   { font-size: 1.2rem; }
-.paziente-email  { opacity: 0.6; font-size: 0.85rem; }
+.paziente-email  { opacity: var(--opacity-muted); font-size: 0.85rem; }
 .paziente-online { margin-left: auto; }
-
 
 .btn-icon {
     border: 2px solid transparent;
@@ -101,8 +94,6 @@ kbd {
     font-family: monospace;
     line-height: 1.4;
 }
-
-/* ── Tracciamento Assunzioni ── */
 
 .week-tracking-grid {
     display: grid;
@@ -140,7 +131,7 @@ kbd {
 
 .week-day-date {
     font-size: 0.78rem;
-    opacity: 0.6;
+    opacity: var(--opacity-muted);
     font-family: monospace;
     flex-shrink: 0;
 }
@@ -152,7 +143,6 @@ kbd {
     gap: 6px;
 }
 
-/* Singola riga pillola — cliccabile */
 .week-pill-row {
     display: flex;
     align-items: center;
@@ -175,12 +165,11 @@ kbd {
     border-color: rgba(76,175,80,0.4);
 }
 .week-pill-row.is-loading {
-    opacity: 0.6;
+    opacity: var(--opacity-muted);
     pointer-events: none;
     cursor: wait;
 }
 
-/* Cerchio di spunta */
 .week-pill-check {
     width: 22px;
     height: 22px;
@@ -202,7 +191,6 @@ kbd {
     color: #fff;
 }
 
-/* Testo info pillola */
 .week-pill-info {
     flex: 1;
     min-width: 0;
@@ -216,7 +204,7 @@ kbd {
 }
 .week-pill-meta {
     font-size: 0.72rem;
-    opacity: 0.55;
+    opacity: var(--opacity-hint);
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
@@ -226,7 +214,6 @@ kbd {
     font-family: monospace;
 }
 
-/* Badge orario */
 .week-pill-time-badge {
     font-family: monospace;
     font-size: 0.72rem;
@@ -236,15 +223,13 @@ kbd {
     flex-shrink: 0;
 }
 
-/* Giorno senza farmaci */
 .week-empty-day {
     padding: 14px;
     text-align: center;
     font-size: 0.82rem;
-    opacity: 0.38;
+    opacity: var(--opacity-placeholder);
 }
 
-/* ── Spinner per il toggle ── */
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
@@ -258,7 +243,6 @@ kbd {
     animation: spin 0.55s linear infinite;
 }
 
-/* ── Amount input nelle prescrizioni ── */
 .amount-input {
     width: 52px;
     background: var(--background-tiles);
@@ -276,7 +260,6 @@ kbd {
     outline: none;
 }
 
-/* ── Slot farmaco nella griglia prescrizioni ── */
 .med-slot-row {
     display: flex;
     align-items: center;
@@ -317,8 +300,6 @@ kbd {
     display: block;
 }
 
-/* ── Medicine code badge nelle pill ── */
-
 .pill-code {
     font-size: 0.68rem;
     background: var(--background-color1);
@@ -341,3 +322,7 @@ kbd {
     letter-spacing: 0.5px;
     opacity: 0.7;
 }
+
+.presc-loading { opacity: var(--opacity-placeholder); font-size: 0.9rem; }
+.presc-error   { color: #c0392b; font-size: 0.9rem; }
+.presc-none    { opacity: 0.5; }

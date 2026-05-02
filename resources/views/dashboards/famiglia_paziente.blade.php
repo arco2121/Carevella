@@ -38,22 +38,22 @@
             <div class="column gap_10">
                 @foreach($familiari as $fam)
                     <div class="box row nobounce vertical_center gap_15 between padding_orizontal_15 padding_vertical_10">
-                       <div class="row vertical_center gap_15">
-                           <div class="avatar-circle avatar-sm fam-avatar">{{ strtoupper(substr($fam->username, 0, 1)) }}</div>
-                           <div class="column gap_10 fam-card">
-                               <span class="font_bold">{{ $fam->username }}</span>
-                               <span class="fam-card-email">{{ $fam->email }}</span>
-                           </div>
-                       </div>
-                       <div class="row vertical_center gap_15">
-                           <span class="role-badge famiglia">Famiglia</span>
-                           <form method="POST"
-                                 action="{{ route('family.detach', [$paziente, $fam]) }}"
-                                 onsubmit="return confirm('Rimuovere {{ addslashes($fam->username) }} da questo paziente?')">
-                               @csrf @method('DELETE')
-                               <button type="submit" class="btn btn-remove">Rimuovi</button>
-                           </form>
-                       </div>
+                        <div class="row vertical_center gap_15">
+                            <div class="avatar-circle avatar-sm">{{ strtoupper(substr($fam->username, 0, 1)) }}</div>
+                            <div class="column gap_10 fam-card">
+                                <span class="font_bold">{{ $fam->username }}</span>
+                                <span class="fam-card-email">{{ $fam->email }}</span>
+                            </div>
+                        </div>
+                        <div class="row vertical_center gap_15">
+                            <span class="role-badge famiglia">Famiglia</span>
+                            <form method="POST"
+                                  action="{{ route('family.detach', [$paziente, $fam]) }}"
+                                  onsubmit="return confirm('Rimuovere {{ addslashes($fam->username) }} da questo paziente?')">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn btn-remove">Rimuovi</button>
+                            </form>
+                        </div>
                     </div>
                 @endforeach
             </div>
