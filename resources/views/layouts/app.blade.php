@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="params" content="{{ json_encode($params) }}">
+    <meta name="env" content="{{ json_encode(collect($_ENV)->concat(getenv())->filter(fn($value,$key) => str_starts_with($key, 'VITE_'))->all()) }}">
     @php
         $pageInt = explode(".", $page);
         $css = explode("_", $pageInt[sizeof($pageInt) - 1])[0];
