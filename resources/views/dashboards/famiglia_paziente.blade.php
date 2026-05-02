@@ -8,7 +8,7 @@
             <div class="row gap_10 vertical_center">
                 <div class="avatar-circle avatar-sm">{{ strtoupper(substr($paziente->username, 0, 1)) }}</div>
                 <span class="font_bold fam-patient-name">{{ $paziente->username }}</span>
-                <span class="role-badge paziente">paziente</span>
+                <span class="role-badge paziente">Paziente</span>
             </div>
         </div>
         <a href="{{ route('dashboard-medico') }}" class="btn secondary">Torna alla Dashboard</a>
@@ -46,7 +46,7 @@
                            </div>
                        </div>
                        <div class="row vertical_center gap_15">
-                           <span class="role-badge famiglia">famiglia</span>
+                           <span class="role-badge famiglia">Famiglia</span>
                            <form method="POST"
                                  action="{{ route('family.detach', [$paziente, $fam]) }}"
                                  onsubmit="return confirm('Rimuovere {{ addslashes($fam->username) }} da questo paziente?')">
@@ -68,7 +68,7 @@
                 @if(User::where('role', 'famiglia')->count() === 0)
                     Nessun account con ruolo "famiglia" è registrato nel sistema.
                 @else
-                    Tutti gli account famiglia disponibili sono già collegati a questo paziente.
+                    Tutti gli account Famiglia disponibili sono già collegati a questo paziente.
                 @endif
             </p>
         @else
