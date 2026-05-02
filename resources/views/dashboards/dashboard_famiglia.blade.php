@@ -1,7 +1,7 @@
 @php
     $pazientiSeguiti = auth()->user()->pazientiSeguiti()->get();
-    $selectedId      = request('paziente') ?? $pazientiSeguiti->first()?->id;
-    $paziente        = $pazientiSeguiti->find($selectedId);
+    $selectedId = request('paziente') ?? $pazientiSeguiti->first()?->id;
+    $paziente = $pazientiSeguiti->find($selectedId);
 @endphp
 
 <div class="dashboard-wrapper column padding_orizontal_20 padding_vertical_20 min_height gap_40 full_width">
@@ -125,6 +125,7 @@
                                     <div class="pill-item row vertical_center gap_10">
                                         <span class="pill-dot"></span>
                                         <span>{{ $item->medicine->name }}</span>
+                                        <kbd class="pill-code">{{ $item->medicine->code }}</kbd>
                                         <span class="pill-time">{{ substr($item->scheduled_time, 0, 5) }}</span>
                                     </div>
                                 @endforeach

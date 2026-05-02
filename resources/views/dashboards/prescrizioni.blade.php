@@ -163,6 +163,7 @@
                                     <div class="pill-item row vertical_center gap_10">
                                         <span class="pill-dot"></span>
                                         <span>{{ $item->medicine->name }}</span>
+                                        <kbd class="pill-code">{{ $item->medicine->code }}</kbd>
                                         <span class="pill-time">×{{ $item->amount }}</span>
                                         <span class="pill-time">{{ substr($item->scheduled_time, 0, 5) }}</span>
                                     </div>

@@ -7,12 +7,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Medicine extends Model
 {
-    // Permette di salvare il nome della medicina
-    protected $fillable = ['name'];
+    protected $fillable = ['code', 'name'];
 
-    // Opzionale: Una medicina può essere presente in molte prescrizioni
     public function prescriptions(): HasMany
     {
         return $this->hasMany(Prescription::class);
+    }
+
+    /**
+     * Restituisce la label completa: "[CODICE] Nome"
+     */
+    public function getFullLabelAttribute(): string
+    {
+        return "[{$this->code}] {$this->name}";
     }
 }

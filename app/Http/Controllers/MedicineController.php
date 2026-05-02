@@ -13,7 +13,7 @@ class MedicineController extends Controller
     public function index()
     {
         return renderPage('dashboards.farmaci', [
-            'title'    => 'Gestione Farmaci',
+            'title'     => 'Gestione Farmaci',
             'medicines' => Medicine::withCount('prescriptions')->orderBy('name')->get(),
         ]);
     }
@@ -22,12 +22,19 @@ class MedicineController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:medicines,name'],
+            'code' => ['required', 'string', 'max:20', 'unique:medicines,code', 'regex:/^[A-Z0-9\-]+$/'],
         ], [
             'name.required' => 'Il nome del farmaco è obbligatorio.',
             'name.unique'   => 'Esiste già un farmaco con questo nome.',
+            'code.required' => 'Il codice identificativo è obbligatorio.',
+            'code.unique'   => 'Esiste già un farmaco con questo codice.',
+            'code.regex'    => 'Il codice può contenere solo lettere maiuscole, numeri e trattini.',
         ]);
 
-        Medicine::create(['name' => trim($request->name)]);
+        Medicine::create([
+            'name' => trim($request->name),
+            'code' => strtoupper(trim($request->code)),
+        ]);
 
         return redirect()->route('medicines.index')->with('success', 'Farmaco aggiunto!');
     }
@@ -36,12 +43,19 @@ class MedicineController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:medicines,name,' . $medicine->id],
+            'code' => ['required', 'string', 'max:20', 'unique:medicines,code,' . $medicine->id, 'regex:/^[A-Z0-9\-]+$/'],
         ], [
             'name.required' => 'Il nome del farmaco è obbligatorio.',
             'name.unique'   => 'Esiste già un farmaco con questo nome.',
+            'code.required' => 'Il codice identificativo è obbligatorio.',
+            'code.unique'   => 'Esiste già un farmaco con questo codice.',
+            'code.regex'    => 'Il codice può contenere solo lettere maiuscole, numeri e trattini.',
         ]);
 
-        $medicine->update(['name' => trim($request->name)]);
+        $medicine->update([
+            'name' => trim($request->name),
+            'code' => strtoupper(trim($request->code)),
+        ]);
 
         return redirect()->route('medicines.index')->with('success', 'Farmaco aggiornato!');
     }

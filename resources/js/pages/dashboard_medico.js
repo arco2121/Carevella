@@ -80,8 +80,6 @@ function loadPrescriptions(pazienteId) {
                 content.innerHTML = '<p style="opacity:0.5;">Nessuna prescrizione per questo paziente.</p>';
                 return;
             }
-
-            // raggruppa per giorno
             const byDay = {};
             data.forEach(p => {
                 if (!byDay[p.day]) byDay[p.day] = [];
@@ -93,12 +91,15 @@ function loadPrescriptions(pazienteId) {
             for (const [day, items] of Object.entries(byDay)) {
                 html += `<div class="day-block column gap_10">
                 <div class="day-label font_bold">${giorni[day] ?? 'G' + day}</div>`;
+
                 items.sort((a,b) => a.step - b.step).forEach(item => {
-                    html += `<div class="pill-item row vertical_center gap_10">
-                    <span class="pill-dot"></span>
-                    <span>${item.medicine_name}</span>
-                    <span class="pill-time">${item.scheduled_time.slice(0,5)}</span>
-                </div>`;
+                    html += ` <div class="pill-item row vertical_center gap_10">
+                                <span class="pill-dot"></span>
+                                <span>${item.medicine_name}</span>
+                                <kbd class="pill-code">${item.medicine_code}</kbd>
+                                <span class="pill-time">×${item.amount}</span>
+                                <span class="pill-time">${item.scheduled_time.slice(0, 5)}</span>
+                            </div>`;
                 });
                 html += '</div>';
             }

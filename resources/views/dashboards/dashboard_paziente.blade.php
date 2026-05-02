@@ -2,11 +2,11 @@
     use Carbon\Carbon;
 
     $prescrizioni = auth()->user()->prescrizioni()->with('medicine')->get()->groupBy('day');
-    $giorni       = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-    $giorniLungo  = ['', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
+    $giorni = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+    $giorniLungo = ['', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
 
-    $oggi    = Carbon::now();
-    $lunedi  = $oggi->copy()->startOfWeek(Carbon::MONDAY);
+    $oggi = Carbon::now();
+    $lunedi = $oggi->copy()->startOfWeek(Carbon::MONDAY);
 
     $weekDays = [];
     for ($i = 0; $i < 7; $i++) {
@@ -115,6 +115,7 @@
                                         <div class="week-pill-info">
                                             <div class="week-pill-name">{{ $item->medicine->name }}</div>
                                             <div class="week-pill-meta">
+                                                <kbd class="week-pill-code">{{ $item->medicine->code }}</kbd>
                                                 <span>{{ $item->amount }} {{ $item->amount == 1 ? 'compressa' : 'compresse' }}</span>
                                                 <span class="week-pill-taken-at"></span>
                                             </div>
@@ -128,7 +129,7 @@
                 @endfor
             </div>
 
-            <p class="presc-hint">💡 Tocca una pillola per segnare se l'hai presa. I dati vengono sincronizzati con il dispenser fisico via MQTT.</p>
+            <p class="presc-hint">💡 Tocca una pillola per segnare se l'hai presa. I dati vengono sincronizzati con il dispenser fisico se presente.</p>
         @endif
     </div>
 
@@ -147,9 +148,8 @@
                             <div class="pill-item row vertical_center gap_10">
                                 <span class="pill-dot"></span>
                                 <span>{{ $item->medicine->name }}</span>
-                                @if($item->amount != 1)
-                                    <span class="pill-time">×{{ $item->amount }}</span>
-                                @endif
+                                <kbd class="pill-code">{{ $item->medicine->code }}</kbd>
+                                <span class="pill-time">×{{ $item->amount }}</span>
                                 <span class="pill-time">{{ substr($item->scheduled_time, 0, 5) }}</span>
                             </div>
                         @endforeach

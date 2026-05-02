@@ -12,12 +12,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('prescription_id')->constrained('prescriptions')->onDelete('cascade');
-            $table->date('date');                  // giorno specifico (es. 2026-01-27)
+            $table->date('date');
             $table->boolean('taken')->default(false);
             $table->timestamp('taken_at')->nullable();
             $table->timestamps();
 
-            // un solo log per paziente+prescrizione+giorno
             $table->unique(['patient_id', 'prescription_id', 'date']);
         });
     }

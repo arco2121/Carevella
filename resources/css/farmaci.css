@@ -9,7 +9,6 @@
     transition: all 0.25s ease, box-shadow 0.15s ease;
 }
 .farm-card:hover {
-    transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.07);
 }
 
@@ -25,14 +24,31 @@
     flex-shrink: 0;
 }
 
+/* Colonna nome + codice */
+.farm-name-col {
+    flex: 1;
+    min-width: 0;
+    gap: 4px;
+}
+
 .farm-name {
     font-size: 1.05rem;
     font-weight: bold;
-    flex: 1;
-    min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Badge codice identificativo sotto il nome */
+.farm-code-badge {
+    font-size: 0.8rem;
+    opacity: 0.65;
+}
+.farm-code-badge kbd {
+    background: var(--background-color1);
+    border-color: rgba(0,0,0,0.15);
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
 }
 
 .farm-badge {
@@ -72,7 +88,46 @@
 }
 .farm-input:focus { border-color: var(--background-button); outline: none; }
 
-.add-form-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+/* Input codice più stretto */
+.farm-input--code {
+    min-width: unset;
+    width: 120px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+/* Gruppo campo (label + input in colonna) */
+.farm-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.farm-field-grow {
+    flex: 1;
+    min-width: 200px;
+}
+.farm-field-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    opacity: 0.65;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.add-form-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+/* Bottone aggiungi allineato in basso al gruppo */
+.farm-add-submit {
+    margin-bottom: 0;
+    align-self: flex-end;
+}
 
 .save-btn {
     aspect-ratio: unset;

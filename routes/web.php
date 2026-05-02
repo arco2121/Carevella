@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
                 'step'           => $p->step,
                 'scheduled_time' => $p->scheduled_time,
                 'medicine_name'  => $p->medicine->name,
+                'medicine_code'  => $p->medicine->code,
                 'amount'         => $p->amount,
             ]);
 
