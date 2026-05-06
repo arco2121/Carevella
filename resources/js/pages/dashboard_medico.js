@@ -137,28 +137,29 @@ echo.channel('esp32').listen('MqttMessageReceived', ({ topic, message }) => {
 
     let data = {};
     try { data = JSON.parse(message); } catch { data.raw = message; }
+    console.log(data)
 
-    if (data.temperature !== undefined || data.temp !== undefined) {
-        const t = parseFloat(data.temperature ?? data.temp);
+    if (data.temperatura !== undefined || data.temp !== undefined) {
+        const t = parseFloat(data.temperatura ?? data.temp);
         const node = el('temperatura-value');
-        if (node) { node.textContent = t.toFixed(1); flash('temperatura-value'); }
+        if (node) { node.textContent = t.toFixed(1); flash('temperature-value'); }
         setBar('temp-bar', t, 0, 50);
         if (el('temp-time')) el('temp-time').textContent = now();
     }
 
-    if (data.humidity !== undefined || data.hum !== undefined) {
-        const h = parseFloat(data.humidity ?? data.hum);
+    if (data.umidita !== undefined || data.hum !== undefined) {
+        const h = parseFloat(data.umidita ?? data.hum);
         const node = el('umidita-value');
-        if (node) { node.textContent = h.toFixed(1); flash('umidita-value'); }
+        if (node) { node.textContent = h.toFixed(1); flash('humidity-value'); }
         setBar('hum-bar', h, 0, 100);
         if (el('hum-time')) el('hum-time').textContent = now();
     }
 
-    if (data.motion !== undefined || data.pir !== undefined) {
-        const m = data.motion ?? data.pir;
+    if (data.movimento !== undefined || data.pir !== undefined) {
+        const m = data.movimento ?? data.pir;
         const node = el('motion-value');
         if (node) {
-            node.textContent = (m === true || m === 1 || m === '1') ? '🟢' : '⚪';
+            node.textContent = (m === true || m === 1 || m === '1') ? 'SI' : 'NO';
             flash('motion-value');
         }
         if (el('pir-time')) el('pir-time').textContent = now();
