@@ -40,7 +40,8 @@ class SubscribeToTopic extends Command
         $mqtt->connect($settings, true);
 
         //$mqtt = MQTT::connection();
-
+        $this->info("🟢 Connesso al broker HiveMQ Per Il subscribe!");
+        
         $mqtt->subscribe('esp32/dati', function(string $topic, string $message) {
             broadcast(new MqttMessageReceived($topic, $message));
         }, 0);
